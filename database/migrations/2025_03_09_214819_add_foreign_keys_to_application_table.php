@@ -22,7 +22,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('application', function (Blueprint $table) {
+        Schema::table('applications', function (Blueprint $table) {
             $table->dropForeign('application_ibfk_1');
             $table->dropForeign('application_ibfk_2');
         });
