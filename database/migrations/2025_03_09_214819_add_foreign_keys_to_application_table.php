@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('application', function (Blueprint $table) {
+        Schema::table('applications', function (Blueprint $table) {
             $table->foreign(['user_id'], 'application_ibfk_1')->references(['id'])->on('users')->onUpdate('restrict')->onDelete('cascade');
             $table->foreign(['job_id'], 'application_ibfk_2')->references(['id'])->on('posts')->onUpdate('restrict')->onDelete('cascade');
         });
