@@ -1,15 +1,13 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+route::get('/',[HomeController::class,'index'])->name('home');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -18,3 +16,14 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+
+
+
+route::get('craetecategory',[CategoryController::class,'create'])->name('category.create');
+route::post('storecategory',[CategoryController::class,'store'])->name('category.store');
+route::get('editcategory/{id}',[CategoryController::class,'edit'])->name('category.edit');
+route::post('updatecategory/{id}',[CategoryController::class,'update'])->name('category.update');
+route::get('deletecategory/{id}',[CategoryController::class,'destroy'])->name('category.delete');
+
+
