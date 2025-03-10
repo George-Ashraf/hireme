@@ -101,7 +101,10 @@
         <div class="container-xxl py-5">
             <div class="container">
                 <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Explore By Category</h1>
+                @auth
                 <a href="{{ route('category.create') }}" class="btn btn-primary mb-3">add category</a>
+
+                @endauth
                 <div class="row g-4">
                     @forelse ($categories as $category)
                         <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
@@ -111,7 +114,7 @@
                                 <i class=" text-primary mb-4 fa fa-3x {{$category->icon  }}"></i>
 
 
-                                <h6 class="mb-3"> {{ $category->name }}    <a href="{{ route('category.delete',$category->id) }}"> <i class="fa-solid fa-trash text-danger"></i></a> <a href="{{ route('category.edit',$category->id) }}"> <i class="fa-solid fa-pen-nib text-secondary"></i></a></h6>
+                                <h6 class="mb-3"> {{ $category->name }}  @auth  <a href="{{ route('category.delete',$category->id) }}"> <i class="fa-solid fa-trash text-danger"></i></a> <a href="{{ route('category.edit',$category->id) }}"> <i class="fa-solid fa-pen-nib text-secondary"></i></a>  @endauth</h6>
                                 <p class="mb-0">123 Vacancy</p>
                             </div>
                         </div>

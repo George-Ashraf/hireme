@@ -3,20 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $categories = Category::all();
 
-        return view('home',compact('categories'));
-    }
+
+
+  
 
     /**
      * Show the form for creating a new resource.
@@ -48,8 +44,8 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category=Category::findOrFail($id);
-        return view('category.edit',compact('category'));
+        $category = Category::findOrFail($id);
+        return view('category.edit', compact('category'));
     }
 
     /**
@@ -57,7 +53,7 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, $id)
     {
-        $category=Category::findOrFail($id);
+        $category = Category::findOrFail($id);
         $category->update($request->all());
         return to_route('home');
     }
@@ -65,8 +61,9 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id) {
-        $category=Category::findOrFail($id);
+    public function destroy($id)
+    {
+        $category = Category::findOrFail($id);
         $category->delete();
         return redirect()->back();
     }
