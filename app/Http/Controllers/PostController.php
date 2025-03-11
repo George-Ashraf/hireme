@@ -21,8 +21,10 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
-    }
+        // $categories = Category::all();
+        // return view('jobs.create', compact('categories'));    }
+        return view('posts.create') ;  
+     }
 
     /**
      * Store a newly created resource in storage.
