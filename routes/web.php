@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\CommentController;
 
 
 require __DIR__.'/auth.php';
@@ -22,8 +23,9 @@ Route::middleware('auth')->group(function () {
 
 });
 
-Route::resource('post', PostController::class)->middleware('auth');;
+Route::resource('post', PostController::class)->middleware('auth');
 
+Route::post('/posts/{post}/comments',  [CommentController::class,"store"])->name("comment.store")->middleware('auth');
 
 
 

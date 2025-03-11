@@ -24,7 +24,7 @@ class StorePostRequest extends FormRequest
 
         return [
             'skills'            => 'nullable|string',
-            'comapny'           => 'nullable|string|max:255',
+            'company'           => 'nullable|string|max:255',
             'salary'            => 'nullable|numeric|min:0|max:999999.99',
             'job_title'         => 'nullable|string|max:255',
             'location'          => 'nullable|string|max:255',
@@ -39,7 +39,7 @@ class StorePostRequest extends FormRequest
             'category_id'       => 'nullable|exists:categories,id',
             'user_id'           => 'nullable|exists:users,id',
         ];
-    
+
     }
 
     function messages(): array{
@@ -57,6 +57,6 @@ class StorePostRequest extends FormRequest
             'closed_date.after_or_equal' => 'The closing date must be today or in the future.',
             'category_id.exists'       => 'Selected category does not exist.',
             'user_id.exists'           => 'Invalid user ID.'
-        ];   
+        ];
     }
 }

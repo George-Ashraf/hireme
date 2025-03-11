@@ -19,7 +19,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+         // Fetch all posts and group them by 'work_type'
+         $posts = Post::all()->groupBy('work_type');
+
+         return view('posts.index',compact('posts'));
     }
 
 
@@ -32,8 +35,8 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('posts.create', compact('categories'));    
-        // return view('posts.create') ;  
+        return view('posts.create', compact('categories'));
+        // return view('posts.create') ;
      }
 
     /**
@@ -41,33 +44,35 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
+        // dd($request);
         $imagename = null;
-    
+
         if ($request->hasFile('image')) {
             $imagename = $request->file('image')->store('posts', 'public');
         }
-    
+
         // Prepare data for insertion
 
 
         $request_data = $request->validated();
         $request_data['image'] = $imagename;
-        $request_data['status'] = 'pending';
+        $request_data['status'] = 'Pending';
         $request_data['user_id'] = Auth::id();
 
-    
+
         // Create the Post
         Post::create($request_data);
-    
+
         // Redirect back with a success message
-        return redirect('/post/create')->with('success', 'Post created successfully.');
+        return redirect()->route('post.index')->with('success', 'Post created successfully.');
     }
      /**
      * Display the specified resource.
      */
     public function show(Post $post)
     {
-        //
+        return view("posts.show",compact("post"));
+
     }
 
     /**

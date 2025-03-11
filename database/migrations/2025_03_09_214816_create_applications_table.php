@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
-            $table->enum('status', ['pending', 'approved'])->nullable();
+            $table->enum('status', ['Pending', 'Approved'])->nullable();
             $table->unsignedBigInteger('user_id')->nullable()->index('user_id');
             $table->unsignedBigInteger('job_id')->nullable()->index('job_id');
             $table->timestamp('created_at')->useCurrent();
