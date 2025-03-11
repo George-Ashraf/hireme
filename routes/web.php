@@ -1,11 +1,15 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('post', [PostController::class, 'index'])->name('job.index');
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

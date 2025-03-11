@@ -13,7 +13,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        // Fetch all posts and group them by 'work_type'
+        $posts = Post::all()->groupBy('work_type');
+
+         return view('job',compact('posts'));
     }
 
     /**
@@ -37,7 +40,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        
     }
 
     /**
