@@ -3,6 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Category;
+
+use Illuminate\Support\Facades\Auth;
+
+
+
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 
@@ -16,14 +22,18 @@ class PostController extends Controller
         //
     }
 
+
+
+
+
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        // $categories = Category::all();
-        // return view('jobs.create', compact('categories'));    }
-        return view('posts.create') ;  
+        $categories = Category::all();
+        return view('posts.create', compact('categories'));    
+        // return view('posts.create') ;  
      }
 
     /**
@@ -31,10 +41,28 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        //
-    }
+        $imagename = null;
+    
+        if ($request->hasFile('image')) {
+            $imagename = $request->file('image')->store('posts', 'public');
+        }
+    
+        // Prepare data for insertion
 
-    /**
+
+        $request_data = $request->validated();
+        $request_data['image'] = $imagename;
+        $request_data['status'] = 'pending';
+        $request_data['user_id'] = Auth::id();
+
+    
+        // Create the Post
+        Post::create($request_data);
+    
+        // Redirect back with a success message
+        return redirect('/post/create')->with('success', 'Post created successfully.');
+    }
+     /**
      * Display the specified resource.
      */
     public function show(Post $post)

@@ -7,70 +7,86 @@
             <div class="card p-4 shadow m-5  ">
                 <h2 class=" mb-4">Post a New Job</h2>
 
-                <form action="" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('post.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <div class="form-group mb-3">
                         <label for="job_title">Job Title</label>
-                        <input type="text" class="form-control" name="job_title" required>
+                        <input type="text" class="form-control" name="job_title" value="{{ old('job_title') }}"
+                            required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="description">Job Description</label>
+                        <input type="text" class="form-control" name="description" value="{{ old('description') }}"
+                            required>
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="company">Company Name</label>
-                        <input type="text" class="form-control" name="comapny" required>
+                        <input type="text" class="form-control" name="comapny"
+                            value="{{ auth()->user()->company ?? old('company') }}" readonly required>
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="salary">Salary</label>
-                        <input type="number" step="0.01" class="form-control" name="salary">
+                        <input min="0" type="number" step="1" class="form-control" name="salary"
+                            value="{{ old('salary') }}">
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="location">Location</label>
-                        <input type="text" class="form-control" name="location" required>
+                        <input type="text" class="form-control" name="location" value="{{ old('location') }}" required>
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="work_type">Work Type</label>
                         <select class="form-control" name="work_type">
-                            <option value="remote">Remote</option>
-                            <option value="hybrid">Hybrid</option>
-                            <option value="onsite">Onsite</option>
+                            <option value="remote" {{ old('work_type') == 'remote' ? 'selected' : '' }}>Remote</option>
+                            <option value="hybrid" {{ old('work_type') == 'hybrid' ? 'selected' : '' }}>Hybrid</option>
+                            <option value="onsite" {{ old('work_type') == 'onsite' ? 'selected' : '' }}>Onsite</option>
                         </select>
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="experience_level">Experience Level</label>
                         <select class="form-control" name="experience_level">
-                            <option value="junior">Junior</option>
-                            <option value="mid_level">Mid Level</option>
-                            <option value="senior">Senior</option>
+                            <option value="junior" {{ old('experience_level') == 'junior' ? 'selected' : '' }}>Junior
+                            </option>
+                            <option value="mid_level" {{ old('experience_level') == 'mid_level' ? 'selected' : '' }}>Mid
+                                Level</option>
+                            <option value="senior" {{ old('experience_level') == 'senior' ? 'selected' : '' }}>Senior
+                            </option>
                         </select>
                     </div>
 
+
+
                     <div class="form-group mb-3">
                         <label for="skills">Skills (Comma-separated)</label>
-                        <textarea class="form-control" name="skills" rows="2"></textarea>
+                        <textarea class="form-control" name="skills" rows="2">{{ old('skills') }}</textarea>
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="responsibility">Responsibilities</label>
-                        <textarea class="form-control" name="responsibility" rows="3"></textarea>
+                        <textarea class="form-control" name="responsibility"
+                            rows="3">{{ old('responsibility') }}</textarea>
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="qualification">Qualifications</label>
-                        <textarea class="form-control" name="qualification" rows="3"></textarea>
+                        <textarea class="form-control" name="qualification"
+                            rows="3">{{ old('qualification') }}</textarea>
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="benefits">Benefits</label>
-                        <textarea class="form-control" name="benefits" rows="3"></textarea>
+                        <textarea class="form-control" name="benefits" rows="3">{{ old('benefits') }}</textarea>
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="closed_date">Application Deadline</label>
-                        <input type="date" class="form-control" name="closed_date">
+                        <input type="date" class="form-control" name="closed_date" value="{{ old('closed_date') }}">
                     </div>
 
                     <div class="form-group mb-3">
@@ -82,7 +98,12 @@
                         <label for="category_id">Category</label>
                         <select class="form-control" name="category_id" required>
                             <option value="">Select a Category</option>
-
+                            @foreach($categories as $category)
+                            <option value="{{ $category->id }}"
+                                {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                {{ $category->name }}
+                            </option>
+                            @endforeach
                         </select>
                     </div>
 

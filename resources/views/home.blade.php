@@ -1,11 +1,4 @@
 <x-app-layout>
-
-
-
-
-
-
-
     <!-- Carousel Start -->
     <div class="container-fluid p-0">
         <div class="owl-carousel header-carousel position-relative">
