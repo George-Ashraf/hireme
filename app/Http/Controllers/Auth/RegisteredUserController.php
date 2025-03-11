@@ -31,20 +31,36 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users,email'],
+            'phone' => ['nullable', 'string', 'max:20'],
+            'role' => ['required', 'in:admin,employer,candidate'],
+            'company' => ['nullable', 'string', 'max:255'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'image' => ['nullable', 'image', 'max:2048'],
+            'resume' => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:4096'],
         ]);
-
+    
+        // Handle file uploads
+        $imagePath = $request->hasFile('image') ? $request->file('image')->store('profiles', 'public') : null;
+        $resumePath = $request->hasFile('resume') ? $request->file('resume')->store('resumes', 'public') : null;
+    
+        // Create user
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'phone' => $request->phone,
+            'role' => $request->role,
+            'company' => $request->company ?? null,
+            'image' => $imagePath,
+            'resume' => $resumePath,
             'password' => Hash::make($request->password),
         ]);
-
+    
         event(new Registered($user));
-
+    
         Auth::login($user);
-
-        return redirect(route('dashboard', absolute: false));
+    
+        return redirect(route('home'));
     }
+    
 }

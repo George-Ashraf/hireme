@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('posts', function (Blueprint $table) {
-            $table->integer('id', true);
+            $table->id();
             $table->text('skills')->nullable();
             $table->string('comapny')->nullable();
             $table->decimal('salary', 10)->nullable();
@@ -27,8 +27,8 @@ return new class extends Migration
             $table->text('benefits')->nullable();
             $table->enum('experience_level', ['junior', 'mid_level', 'senior'])->nullable();
             $table->date('closed_date')->nullable();
-            $table->integer('category_id')->nullable()->index('category_id');
-            $table->integer('user_id')->nullable()->index('user_id');
+            $table->unsignedBigInteger('category_id')->nullable()->index('category_id');
+            $table->unsignedBigInteger('user_id')->nullable()->index('user_id');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();
         });
