@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('application', function (Blueprint $table) {
-            $table->integer('id', true);
-            $table->enum('status', ['pending', 'approved'])->nullable();
-            $table->integer('user_id')->nullable()->index('user_id');
-            $table->integer('job_id')->nullable()->index('job_id');
+        Schema::create('applications', function (Blueprint $table) {
+            $table->id();
+            $table->enum('status', ['Pending', 'Approved'])->nullable();
+            $table->unsignedBigInteger('user_id')->nullable()->index('user_id');
+            $table->unsignedBigInteger('job_id')->nullable()->index('job_id');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->useCurrent();
         });
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('application');
+        Schema::dropIfExists('applications');
     }
 };
