@@ -22,7 +22,7 @@ Route::middleware('auth')->group(function () {
 
 });
 
-Route::resource('post', PostController::class)->middleware('auth');;
+Route::resource('post', PostController::class)->middleware('auth');
 
 
 
