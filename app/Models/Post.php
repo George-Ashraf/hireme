@@ -14,7 +14,6 @@ class Post extends Model
 
     protected $fillable = [
         "skills",
-        "company",
         "salary" ,
         "job_title",
         "location",

@@ -81,7 +81,7 @@
 
                         <h4 class="mb-4">Job Summery</h4>
                         <p><i class="fa fa-angle-right text-primary me-2"></i>Created On:<span style="font-size:14px;font-weight:bold">{{$post->created_at->format('l jS \\of F Y ') }}</span></p>
-                        <p><i class="fa fa-angle-right text-primary me-2"></i>Company :{{$post->comapny}}</p>
+                        <p><i class="fa fa-angle-right text-primary me-2"></i>Company :{{$post->company}}</p>
                         <p><i class="fa fa-angle-right text-primary me-2"></i>Job Nature: {{$post->work_type}}</p>
                         <p><i class="fa fa-angle-right text-primary me-2"></i>Salary: {{$post->salary}}</p>
                         <p><i class="fa fa-angle-right text-primary me-2"></i>Location: {{$post->location}}</p>
