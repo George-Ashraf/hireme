@@ -26,8 +26,6 @@ Route::middleware('auth')->group(function () {
 });
 
 
-
-require __DIR__.'/auth.php';
 Route::resource('post', PostController::class)->middleware('auth');
 
 Route::post('/posts/{post}/comments',  [CommentController::class,"store"])->name("comment.store")->middleware('auth');

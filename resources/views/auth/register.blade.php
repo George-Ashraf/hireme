@@ -10,23 +10,24 @@
                     <!-- Name -->
                     <div class="form-group mb-3">
                         <label for="name">Name</label>
-                        <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required
-                            autofocus autocomplete="name">
+                        <input id="name" type="text" class="form-control" name="name"
+                            value="{{ old('name') }}" required autofocus autocomplete="name">
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />
                     </div>
 
                     <!-- Email -->
                     <div class="form-group mb-3">
                         <label for="email">Email</label>
-                        <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}"
-                            required autocomplete="username">
+                        <input id="email" type="email" class="form-control" name="email"
+                            value="{{ old('email') }}" required autocomplete="username">
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
 
                     <!-- Phone -->
                     <div class="form-group mb-3">
                         <label for="phone">Phone</label>
-                        <input id="phone" type="text" class="form-control" name="phone" value="{{ old('phone') }}">
+                        <input id="phone" type="text" class="form-control" name="phone"
+                            value="{{ old('phone') }}">
                         <x-input-error :messages="$errors->get('phone')" class="mt-2" />
                     </div>
 
@@ -43,8 +44,9 @@
 
                     <!-- Resume (Only for Candidates) -->
                     <div id="resume-container" class="form-group mb-3">
-                        <label for="resume">Upload Resume (Optional)</label>
-                        <input id="resume" type="file" class="form-control" name="resume" accept=".pdf,.doc,.docx">
+                        <label for="resume">Upload Resume <span class="text-danger">*</span> </label>
+                        <input id="resume" type="file" class="form-control" name="resume" required
+                            accept=".pdf,.doc,.docx">
                         <x-input-error :messages="$errors->get('resume')" class="mt-2" />
                     </div>
 
@@ -90,21 +92,21 @@
         </div>
     </div>
     <script>
-    function toggleFields() {
-        var role = document.getElementById("role").value;
-        var resumeContainer = document.getElementById("resume-container");
-        var companyContainer = document.getElementById("company-container");
+        function toggleFields() {
+            var role = document.getElementById("role").value;
+            var resumeContainer = document.getElementById("resume-container");
+            var companyContainer = document.getElementById("company-container");
 
-        if (role === "candidate") {
-            resumeContainer.style.display = "block"; // Show Resume
-            companyContainer.style.display = "none"; // Hide Company
-        } else {
-            resumeContainer.style.display = "none"; // Hide Resume
-            companyContainer.style.display = "block"; // Show Company
+            if (role === "candidate") {
+                resumeContainer.style.display = "block"; // Show Resume
+                companyContainer.style.display = "none"; // Hide Company
+            } else {
+                resumeContainer.style.display = "none"; // Hide Resume
+                companyContainer.style.display = "block"; // Show Company
+            }
         }
-    }
 
-    // Run on page load to set correct visibility (especially when reloading with old values)
-    document.addEventListener("DOMContentLoaded", toggleFields);
+        // Run on page load to set correct visibility (especially when reloading with old values)
+        document.addEventListener("DOMContentLoaded", toggleFields);
     </script>
 </x-app-layout>

@@ -1,3 +1,6 @@
+@if(auth()->user()->can('store-post'))
+
+
 <x-app-layout>
 
     <div class=" bg-white ">
@@ -24,7 +27,7 @@
 
                     <div class="form-group mb-3">
                         <label for="company">Company Name</label>
-                        <input type="text" class="form-control" name="comapny"
+                        <input type="text" class="form-control" name="company"
                             value="{{ auth()->user()->company ?? old('company') }}" readonly required>
                     </div>
 
@@ -43,21 +46,26 @@
                     <div class="form-group mb-3">
                         <label for="work_type">Work Type</label>
                         <select class="form-control" name="work_type">
-                            <option value="remote" {{ old('work_type') == 'remote' ? 'selected' : '' }}>Remote</option>
-                            <option value="hybrid" {{ old('work_type') == 'hybrid' ? 'selected' : '' }}>Hybrid</option>
-                            <option value="onsite" {{ old('work_type') == 'onsite' ? 'selected' : '' }}>Onsite</option>
+                            <option value="remote" {{ old('work_type') == 'remote' ? 'selected' : '' }}>Remote
+                            </option>
+                            <option value="hybrid" {{ old('work_type') == 'hybrid' ? 'selected' : '' }}>Hybrid
+                            </option>
+                            <option value="onsite" {{ old('work_type') == 'onsite' ? 'selected' : '' }}>Onsite
+                            </option>
                         </select>
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="experience_level">Experience Level</label>
                         <select class="form-control" name="experience_level">
-                            <option value="junior" {{ old('experience_level') == 'junior' ? 'selected' : '' }}>Junior
+                            <option value="junior" {{ old('experience_level') == 'junior' ? 'selected' : '' }}>
+                                Junior
                             </option>
                             <option value="mid_level" {{ old('experience_level') == 'mid_level' ? 'selected' : '' }}>
                                 Mid
                                 Level</option>
-                            <option value="senior" {{ old('experience_level') == 'senior' ? 'selected' : '' }}>Senior
+                            <option value="senior" {{ old('experience_level') == 'senior' ? 'selected' : '' }}>
+                                Senior
                             </option>
                         </select>
                     </div>
@@ -114,3 +122,9 @@
 
 
 </x-app-layout>
+@else
+@php
+header("Location: " . route('home'));
+exit();
+@endphp
+@endif

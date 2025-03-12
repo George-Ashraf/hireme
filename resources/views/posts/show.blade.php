@@ -5,8 +5,8 @@
             <h1 class="display-3 text-white mb-3 animated slideInDown">Job Detail</h1>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb text-uppercase">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('post.index') }}">jobs</a></li>
                     <li class="breadcrumb-item text-white active" aria-current="page">Job Detail</li>
                 </ol>
             </nav>
@@ -30,7 +30,7 @@
                         </div>
                     </div>
 
-                    <div class="mb-5">
+                    <div class="mb-3">
                         <h4 class="mb-3">Job description</h4>
                         <p>{{ $post->description }}</p>
                         <h4 class="mb-3">Responsibility</h4>
@@ -46,7 +46,7 @@
 
                         </ul>
                     </div>
-                    @if (auth()->user()->id != $post->user_id)
+                    @if (auth()->user()->id != $post->user_id && auth()->user()->role == 'candidate')
                         <div class="">
                             <h4 class="mb-4">Apply For The Job</h4>
                             <form>

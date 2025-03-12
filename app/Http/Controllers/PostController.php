@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use App\Models\Category;
+use Illuminate\Support\Facades\Storage;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
+use Illuminate\Support\Facades\Auth;
 
 
 
@@ -21,10 +23,10 @@ class PostController extends Controller
      */
     public function index()
     {
-         // Fetch all posts and group them by 'work_type'
-         $posts = Post::all()->groupBy('work_type');
+        // Fetch all posts and group them by 'work_type'
+        $posts = Post::all()->groupBy('work_type');
 
-         return view('posts.index',compact('posts'));
+        return view('posts.index', compact('posts'));
     }
 
 
@@ -36,19 +38,18 @@ class PostController extends Controller
      */
     public function create(Post $post)
     {
-        // Gate::authorize('create-post', $post);
-
         $categories = Category::all();
         return view('posts.create', compact('categories'));
-       
-     }
+        // return view('posts.create') ;  
+    }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePostRequest $request)
+    public function store(StorePostRequest $request, User $user)
     {
-        // dd($request);
+        Gate::authorize('store-post', $user);
+
         $imagename = null;
 
         if ($request->hasFile('image')) {
@@ -68,15 +69,14 @@ class PostController extends Controller
         Post::create($request_data);
 
         // Redirect back with a success message
-        return redirect()->route('post.index')->with('success', 'Post created successfully.');
+        return redirect()->route('post.index');
     }
-     /**
+    /**
      * Display the specified resource.
      */
     public function show(Post $post)
     {
-        return view("posts.show",compact("post"));
-
+        return view("posts.show", compact("post"));
     }
 
     /**
@@ -86,14 +86,34 @@ class PostController extends Controller
     {
         Gate::authorize('update-post', $post);
 
+        $categories = Category::all();
+        return view('posts.edit', compact('post', 'categories'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdatePostRequest $request, Post $post)
     {
+        // Check if the authenticated user is authorized to update the post
         Gate::authorize('update-post', $post);
+
+        // Prepare data for update
+        $request_data = $request->validated();
+
+        // Handle image update if a new one is uploaded
+        if ($request->hasFile('image')) {
+            // Delete the old image if it exists
+            if ($post->image) {
+                Storage::disk('public')->delete($post->image);
+            }
+
+            // Store the new image
+            $request_data['image'] = $request->file('image')->store('posts', 'public');
+        }
+
+        // Update the post
+        $post->update($request_data);
+
+        // Redirect with a success message
+        return redirect()->route('post.index', $post)->with('success', 'Post updated successfully.');
     }
 
     /**
@@ -101,6 +121,17 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        Gate::authorize('delete-post', $post);
+
+
+        // Delete the associated image if it exists
+        if ($post->image) {
+            Storage::disk('public')->delete($post->image);
+        }
+
+        // Delete the post
+        $post->delete();
+
+        // Redirect with a success message
+        return redirect()->route('post.index');
     }
 }

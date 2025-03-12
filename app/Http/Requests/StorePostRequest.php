@@ -38,10 +38,10 @@ class StorePostRequest extends FormRequest
             'category_id'       => 'nullable|exists:categories,id',
             'user_id'           => 'nullable|exists:users,id',
         ];
-
     }
 
-    function messages(): array{
+    function messages(): array
+    {
 
         return [
             'salary.numeric'           => 'Salary must be a valid number.',
