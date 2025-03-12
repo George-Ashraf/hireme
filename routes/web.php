@@ -31,6 +31,9 @@ require __DIR__.'/auth.php';
 Route::resource('post', PostController::class)->middleware('auth');
 
 Route::post('/posts/{post}/comments',  [CommentController::class,"store"])->name("comment.store")->middleware('auth');
+Route::get('/posts/{post}/comments/{comment}',  [CommentController::class,"edit"])->name("comment.edit")->middleware('auth');
+Route::put('/posts/{post}/comments/{comment}',  [CommentController::class,"update"])->name("comment.update")->middleware('auth');
+Route::delete('/posts/{post}/comments/{comment}',  [CommentController::class,"destroy"])->name("comment.destroy")->middleware('auth');
 
 
 

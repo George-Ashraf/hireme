@@ -36,7 +36,7 @@ class PostController extends Controller
      */
     public function create(Post $post)
     {
-        Gate::authorize('create-post', $post);
+        // Gate::authorize('create-post', $post);
 
         $categories = Category::all();
         return view('posts.create', compact('categories'));
