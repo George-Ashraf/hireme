@@ -46,32 +46,33 @@
 
                         </ul>
                     </div>
-
-                    <div class="">
-                        <h4 class="mb-4">Apply For The Job</h4>
-                        <form>
-                            <div class="row g-3">
-                                <div class="col-12 col-sm-6">
-                                    <input type="text" class="form-control" placeholder="Your Name">
+                    @if (auth()->user()->id != $post->user_id)
+                        <div class="">
+                            <h4 class="mb-4">Apply For The Job</h4>
+                            <form>
+                                <div class="row g-3">
+                                    <div class="col-12 col-sm-6">
+                                        <input type="text" class="form-control" placeholder="Your Name">
+                                    </div>
+                                    <div class="col-12 col-sm-6">
+                                        <input type="email" class="form-control" placeholder="Your Email">
+                                    </div>
+                                    <div class="col-12 col-sm-6">
+                                        <input type="text" class="form-control" placeholder="Portfolio Website">
+                                    </div>
+                                    <div class="col-12 col-sm-6">
+                                        <input type="file" class="form-control bg-white">
+                                    </div>
+                                    <div class="col-12">
+                                        <textarea class="form-control" rows="5" placeholder="Coverletter"></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="btn btn-primary w-100" type="submit">Apply Now</button>
+                                    </div>
                                 </div>
-                                <div class="col-12 col-sm-6">
-                                    <input type="email" class="form-control" placeholder="Your Email">
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    <input type="text" class="form-control" placeholder="Portfolio Website">
-                                </div>
-                                <div class="col-12 col-sm-6">
-                                    <input type="file" class="form-control bg-white">
-                                </div>
-                                <div class="col-12">
-                                    <textarea class="form-control" rows="5" placeholder="Coverletter"></textarea>
-                                </div>
-                                <div class="col-12">
-                                    <button class="btn btn-primary w-100" type="submit">Apply Now</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                            </form>
+                        </div>
+                    @endif
                 </div>
 
                 <div class="col-lg-4 border-b-2">
@@ -106,89 +107,92 @@
             </div>
         </div>
     </div>
-    <div class="container wow slideInUp position-relative ">
-        <h4 class="mb-4">Comments</h4>
+    @if ($post->status == 'Published')
+        <div class="container wow slideInUp position-relative ">
+            <h4 class="mb-4">Comments</h4>
 
-        @if ($post->comments)
-            <div class=" rounded my-2 col-8">
-                @foreach ($post->comments as $comment)
-                    <div class="border-b p-2 my-2 bg-white rounded-lg">
-                        <div class="d-flex align-items-center gap-3  pb-2 position-relative">
+            @if ($post->comments)
+                <div class=" rounded my-2 col-8">
+                    @foreach ($post->comments as $comment)
+                        <div class="border-b p-2 my-2 bg-white rounded-lg">
+                            <div class="d-flex align-items-center gap-3  pb-2 position-relative">
 
 
-                            <img src="{{ asset('storage/' . $comment->user->image) }}" alt="User Profile"
-                                class="rounded-circle border"
-                                style="height: 50px; width: 50px; object-fit: contain; object-position: center;">
+                                <img src="{{ asset('storage/' . $comment->user->image) }}" alt="User Profile"
+                                    class="rounded-circle border"
+                                    style="height: 50px; width: 50px; object-fit: contain; object-position: center;">
 
-                            <div>
-                                <p class="mb-0">{{ $comment->user ? $comment->user->name : 'null' }}</p>
-                                <p class="text-dark my-0 py-0" style="font-size:10px">
-                                    {{ $comment->user ? $comment->user->role : 'null' }}</p>
+                                <div>
+                                    <p class="mb-0">{{ $comment->user ? $comment->user->name : 'null' }}</p>
+                                    <p class="text-dark my-0 py-0" style="font-size:10px">
+                                        {{ $comment->user ? $comment->user->role : 'null' }}</p>
+
+                                </div>
+                                @can('update-comment', $comment)
+                                    <div class="position-absolute end-0">
+                                        <div class="dropdown">
+                                            <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button"
+                                                id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"
+                                                style="font-size:12px;">
+                                                ⋮
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton"
+                                                style="font-size:12px;">
+                                                <li>
+                                                    <a class="dropdown-item"
+                                                        href="{{ route('comment.edit', ['post' => $post, 'comment' => $comment]) }}">
+                                                        Edit
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <form
+                                                        action="{{ route('comment.destroy', ['post' => $post, 'comment' => $comment]) }}"
+                                                        method="POST" class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="dropdown-item text-dark"
+                                                            onclick="return confirm('Are you sure you want to delete this job?');">
+                                                            Delete
+                                                        </button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                @endcan
+
 
                             </div>
-                            @can('update-comment', $comment)
-                                <div class="position-absolute end-0">
-                                    <div class="dropdown">
-                                        <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button"
-                                            id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"
-                                            style="font-size:12px;">
-                                            ⋮
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton"
-                                            style="font-size:12px;">
-                                            <li>
-                                                <a class="dropdown-item"
-                                                    href="{{ route('comment.edit', ['post' => $post, 'comment' => $comment]) }}">
-                                                    Edit
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <form
-                                                    action="{{ route('comment.destroy', ['post' => $post, 'comment' => $comment]) }}"
-                                                    method="POST" class="d-inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="dropdown-item text-dark"
-                                                        onclick="return confirm('Are you sure you want to delete this job?');">
-                                                        Delete
-                                                    </button>
-                                                </form>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            @endcan
+                            <p class=" ms-2 mx-auto  my-2">{{ $comment->body }}</p>
 
 
                         </div>
-                        <p class=" ms-2 mx-auto  my-2">{{ $comment->body }}</p>
-
-
-                    </div>
-                @endforeach
-            </div>
-        @endif
-
-
-
-
-
-
-
-        <div class="col-8">
-            <form action="{{ route('comment.store', ['post' => $post]) }}" method="POST">
-                @csrf
-                <div class="mb-3">
-
-                    <textarea class="form-control" id="comment" name="body" rows="3"
-                        placeholder="Write your comment here..." required></textarea>
+                    @endforeach
                 </div>
+            @endif
 
-                <button type="submit" class="btn btn-primary">Add Your Comment</button>
-            </form>
 
+
+
+
+
+
+            <div class="col-8">
+                <form action="{{ route('comment.store', ['post' => $post]) }}" method="POST">
+                    @csrf
+                    <div class="mb-3">
+
+                        <textarea class="form-control" id="comment" name="body" rows="3"
+                            placeholder="Write your comment here..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Add Your Comment</button>
+                </form>
+
+            </div>
         </div>
-    </div>
+    @endif
+
 
 
 
