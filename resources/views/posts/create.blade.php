@@ -36,7 +36,8 @@
 
                     <div class="form-group mb-3">
                         <label for="location">Location</label>
-                        <input type="text" class="form-control" name="location" value="{{ old('location') }}" required>
+                        <input type="text" class="form-control" name="location" value="{{ old('location') }}"
+                            required>
                     </div>
 
                     <div class="form-group mb-3">
@@ -53,7 +54,8 @@
                         <select class="form-control" name="experience_level">
                             <option value="junior" {{ old('experience_level') == 'junior' ? 'selected' : '' }}>Junior
                             </option>
-                            <option value="mid_level" {{ old('experience_level') == 'mid_level' ? 'selected' : '' }}>Mid
+                            <option value="mid_level" {{ old('experience_level') == 'mid_level' ? 'selected' : '' }}>
+                                Mid
                                 Level</option>
                             <option value="senior" {{ old('experience_level') == 'senior' ? 'selected' : '' }}>Senior
                             </option>
@@ -69,14 +71,12 @@
 
                     <div class="form-group mb-3">
                         <label for="responsibility">Responsibilities</label>
-                        <textarea class="form-control" name="responsibility"
-                            rows="3">{{ old('responsibility') }}</textarea>
+                        <textarea class="form-control" name="responsibility" rows="3">{{ old('responsibility') }}</textarea>
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="qualification">Qualifications</label>
-                        <textarea class="form-control" name="qualification"
-                            rows="3">{{ old('qualification') }}</textarea>
+                        <textarea class="form-control" name="qualification" rows="3">{{ old('qualification') }}</textarea>
                     </div>
 
                     <div class="form-group mb-3">
@@ -98,11 +98,11 @@
                         <label for="category_id">Category</label>
                         <select class="form-control" name="category_id" required>
                             <option value="">Select a Category</option>
-                            @foreach($categories as $category)
-                            <option value="{{ $category->id }}"
-                                {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                                {{ $category->name }}
-                            </option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}"
+                                    {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                    {{ $category->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
