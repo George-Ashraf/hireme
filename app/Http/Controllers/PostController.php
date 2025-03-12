@@ -6,6 +6,8 @@ use App\Models\Post;
 use App\Models\Category;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+
 
 
 
@@ -32,8 +34,10 @@ class PostController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Post $post)
     {
+        Gate::authorize('create-post', $post);
+
         $categories = Category::all();
         return view('posts.create', compact('categories'));
         // return view('posts.create') ;
@@ -80,7 +84,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        Gate::authorize('update-post', $post);
+
     }
 
     /**
@@ -88,7 +93,7 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        //
+        Gate::authorize('update-post', $post);
     }
 
     /**
@@ -96,6 +101,6 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        Gate::authorize('delete-post', $post);
     }
 }

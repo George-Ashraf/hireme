@@ -24,7 +24,6 @@ class StorePostRequest extends FormRequest
 
         return [
             'skills'            => 'nullable|string',
-            'company'           => 'nullable|string|max:255',
             'salary'            => 'nullable|numeric|min:0|max:999999.99',
             'job_title'         => 'nullable|string|max:255',
             'location'          => 'nullable|string|max:255',

@@ -5,9 +5,10 @@
     <div class="container-xxl py-5">
         <div class="container">
             <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Job Listing</h1>
-            @auth
+            @if(auth()->user()->role === 'employer')
             <a href="{{ route('post.create') }}" class="btn btn-secondary m-5">Add job post</a>
-            @endauth
+            @endif
+
             <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
                 <!-- Tab navigation -->
                 <ul class="nav nav-pills d-iwnline-flex justify-content-center border-bottom mb-5">
@@ -25,37 +26,40 @@
                 <div class="tab-content">
                     @foreach ($posts as $workType => $jobs)
                     <div id="{{ Str::slug($workType) }}" class="tab-pane fade {{ $loop->first ? 'show active' : '' }} p-0">
-                            @foreach ($jobs as $job)
+                            @foreach ($jobs as $post)
                             <div class="job-item p-4 mb-4">
                                 <div class="row g-4">
                                     <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid border rounded" src="{{asset('storage/'. $job->image )}}" alt="" style="width: 80px; height: 80px;">
+                                        <img class="flex-shrink-0 img-fluid border rounded" src="{{asset('storage/'. $post->image )}}" alt="" style="width: 80px; height: 80px;">
                                         <div class="text-start ps-4">
-                                            <h5 class="mb-3">{{ $job->job_title }}</h5>
-                                            <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>{{ $job->location }}</span>
-                                            <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>{{ $job->work_type }}</span>
-                                            <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>${{ $job->salary }}</span>
+                                            <h5 class="mb-3">{{ $post->job_title }}</h5>
+                                            <span class="text-truncate me-3"><i class="fa fa-map-marker-alt text-primary me-2"></i>{{ $post->location }}</span>
+                                            <span class="text-truncate me-3"><i class="far fa-clock text-primary me-2"></i>{{ $post->work_type }}</span>
+                                            <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>${{ $post->salary }}</span>
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
+                                        <h6>                     @can("delete-post", $post) @auth <a
+                                            href="{{ route('post.destroy',$post->id) }}"> <i
+                                                class="fa-solid fa-trash text-danger"></i></a> <a
+                                            href="{{ route('post.edit',$post->id) }}"> <i
+                                                class="fa-solid fa-pen-nib text-secondary"></i></a>
+                                                 @endauth
+                                                 @endcanany</h6>
                                         <div class="d-flex mb-3">
-                                            <a class="btn btn-light btn-square me-3" href=""><i class="far fa-heart text-primary"></i></a>
-                                            <a class="btn btn-primary" href="{{ route('post.show', $job->id)}}">Apply Now</a>
+                                            @if(auth()->user()->role === 'candidate')
+                                             <a class="btn btn-primary" href="{{ route('post.show', $post->id)}}">Apply Now</a>
+                                             @else
+                                             <a class="btn btn-primary" href="{{ route('post.show', $post->id)}}">Show details</a>
+                                             @endif
                                         </div>
-                                        <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Date Line: {{ $job->closed_date }}</small>
+                                        <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Date Line: {{ $post->closed_date }}</small>
                                     </div>
 
                                 </div>
-                                @auth <a
-                                href="{{ route('post.destroy',$job->id) }}"> <i
-                                    class="fa-solid fa-trash text-danger"></i></a> <a
-                                href="{{ route('post.edit',$job->id) }}"> <i
-                                    class="fa-solid fa-pen-nib text-secondary"></i></a>
-                                     @endauth</h6>
                             </div>
                             @endforeach
-
-                        <a class="btn btn-primary py-3 px-5" href="#">Browse More Jobs</a>
+                        <a class="btn btn-primary py-3 px-5" href="#">Browse More jobs</a>
                     </div>
                     @endforeach
                 </div>
