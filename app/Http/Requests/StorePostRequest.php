@@ -39,10 +39,10 @@ class StorePostRequest extends FormRequest
             'category_id'       => 'nullable|exists:categories,id',
             'user_id'           => 'nullable|exists:users,id',
         ];
-    
     }
 
-    function messages(): array{
+    function messages(): array
+    {
 
         return [
             'salary.numeric'           => 'Salary must be a valid number.',
@@ -57,6 +57,6 @@ class StorePostRequest extends FormRequest
             'closed_date.after_or_equal' => 'The closing date must be today or in the future.',
             'category_id.exists'       => 'Selected category does not exist.',
             'user_id.exists'           => 'Invalid user ID.'
-        ];   
+        ];
     }
 }

@@ -23,7 +23,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        // Fetch all posts and group them by 'work_type'
+        $posts = Post::all()->groupBy('work_type');
+
+        return view('posts.index', compact('posts'));
     }
 
 
@@ -33,47 +36,47 @@ class PostController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Post $post)
     {
         $categories = Category::all();
-        return view('posts.create', compact('categories'));    
+        return view('posts.create', compact('categories'));
         // return view('posts.create') ;  
-     }
+    }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePostRequest $request,User $user)
+    public function store(StorePostRequest $request, User $user)
     {
-                Gate::authorize('store-post', $user);
+        Gate::authorize('store-post', $user);
 
         $imagename = null;
-    
+
         if ($request->hasFile('image')) {
             $imagename = $request->file('image')->store('posts', 'public');
         }
-    
+
         // Prepare data for insertion
 
 
         $request_data = $request->validated();
         $request_data['image'] = $imagename;
-        $request_data['status'] = 'pending';
+        $request_data['status'] = 'Pending';
         $request_data['user_id'] = Auth::id();
 
-    
+
         // Create the Post
         Post::create($request_data);
-    
+
         // Redirect back with a success message
-        return redirect('/post/create')->with('success', 'Post created successfully.');
+        return redirect()->route('post.index');
     }
-     /**
+    /**
      * Display the specified resource.
      */
     public function show(Post $post)
     {
-        //
+        return view("posts.show", compact("post"));
     }
 
     /**
@@ -81,44 +84,54 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        Gate::authorize('update-post', $post);
+
         $categories = Category::all();
         return view('posts.edit', compact('post', 'categories'));
     }
-    
+
     public function update(UpdatePostRequest $request, Post $post)
     {
         // Check if the authenticated user is authorized to update the post
         Gate::authorize('update-post', $post);
-    
+
         // Prepare data for update
         $request_data = $request->validated();
-    
+
         // Handle image update if a new one is uploaded
         if ($request->hasFile('image')) {
             // Delete the old image if it exists
             if ($post->image) {
                 Storage::disk('public')->delete($post->image);
             }
-    
+
             // Store the new image
             $request_data['image'] = $request->file('image')->store('posts', 'public');
         }
-    
+
         // Update the post
         $post->update($request_data);
-    
+
         // Redirect with a success message
-        return redirect()->route('posts.edit', $post)->with('success', 'Post updated successfully.');
+        return redirect()->route('post.index', $post)->with('success', 'Post updated successfully.');
     }
-    
+
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Post $post)
     {
-        // Gate::authorize('delete-post', $post);
 
+
+        // Delete the associated image if it exists
+        if ($post->image) {
+            Storage::disk('public')->delete($post->image);
+        }
+
+        // Delete the post
         $post->delete();
-        // display confirmation before delete
-        return to_route('post.index')->with('success', 'Job Post deleted ');}
+
+        // Redirect with a success message
+        return redirect()->route('post.index');
+    }
 }

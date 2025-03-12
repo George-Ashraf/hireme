@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Comment;
+
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,7 +15,7 @@ class Post extends Model
     protected $fillable = [
         "skills",
         "company",
-        "salary" ,
+        "salary",
         "job_title",
         "location",
         "work_type",
@@ -26,26 +29,25 @@ class Post extends Model
         "closed_date",
         "category_id",
         "user_id"
-    ] ;
+    ];
 
 
-function user()
-{
+    function user()
+    {
 
-    return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
-    
-}
+    function category()
+    {
 
-function category()
-{
-
-    return $this->belongsTo(Category::class, 'category_id');
-
-    
-}
+        return $this->belongsTo(Category::class, 'category_id');
+    }
 
 
-    /** @use HasFactory<\Database\Factories\PostFactory> */
-    use HasFactory;
+
+    public function comments(): MorphMany
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
 }

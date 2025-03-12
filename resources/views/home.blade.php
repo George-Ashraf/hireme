@@ -16,7 +16,8 @@
                                     rebum sea elitr.</p>
                                 <a href="" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Search A
                                     Job</a>
-                                <a href="" class="btn btn-secondary py-md-3 px-md-5 animated slideInRight">Find A
+                                <a href="{{ route('post.create') }}"
+                                    class="btn btn-secondary py-md-3 px-md-5 animated slideInRight">Find A
                                     Talent</a>
                             </div>
                         </div>
