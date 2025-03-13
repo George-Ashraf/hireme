@@ -73,36 +73,7 @@
                                                                 class="text-danger ms-2 fw-bold">{{ $post->closed_date }}</span>
                                                         </span>
                                                     </div>
-                                                    <table class="table table-bordered table-hover shadow-sm mt-5">
-                                                        <thead class="table-primary text-center">
-                                                            <tr>
-                                                                <th>Profile pic</th>
-                                                                <th>Candidate</th>
-                                                                <th>Status</th>
-                                                                <th>Actions</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody class="text-center">
-                                                            @forelse ($post->application as $application)
-                                                            <tr>
-                                                                        <td>
-                                                                            <img src="{{ asset('storage/' . $application->user->image) }}"
-                                                                                 alt="User Image" class="rounded-circle" width="40" height="40">
-                                                                        </td>
-                                                                        <td>{{ $application->user->name }}</td>
-                                                                        <td>
-                                                                            <a href="" class="btn btn-sm btn-dark"></a>
-
-                                                                        </td>
-                                                                        <td>
-                                                                            <a href="{{ route('application.show', $application->id) }}" class="btn btn-sm btn-dark">Show</a>
-                                                                        </td>
-                                                                    </tr>
-                                                                    @empty
-                                                                    <div class="alert-danger alert mt-3">No applications</div>
-                                                            @endforelse
-                                                        </tbody>
-                                                    </table>
+                                                   
                                                 </div>
                                             </div>
 
