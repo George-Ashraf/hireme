@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreApplicationRequest;
 use App\Http\Requests\UpdateApplicationRequest;
 use App\Models\Application;
+use App\Models\Post;
+use App\Models\User;
 
 class ApplicationController extends Controller
 {
@@ -13,10 +15,17 @@ class ApplicationController extends Controller
      */
     public function index()
     {
-        $applications = Application::all();
+        $user = auth()->user(); // Get authenticated employer
 
-        return view('application.index');
+        // Get only posts created by this employer
+        $posts = Post::where('user_id', $user->id)->pluck('id');
+
+        // Fetch applications related to the employer's job posts
+        $applications = Application::whereIn('job_id', $posts)->get();
+
+        return view('applications.index', compact('applications'));
     }
+
 
     /**
      * Show the form for creating a new resource.

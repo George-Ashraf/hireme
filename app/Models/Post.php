@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Comment;
+use App\Models\Application;
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -51,8 +52,8 @@ class Post extends Model
     }
 
 
-    public function appllication(){
-        return $this->hasMany(Appllication::class);
+    public function application(){
+        return $this->hasMany(Application::class, 'job_id');
     }
 
 

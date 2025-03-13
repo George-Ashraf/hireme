@@ -35,7 +35,7 @@ Route::put('/posts/{post}/comments/{comment}',  [CommentController::class,"updat
 Route::delete('/posts/{post}/comments/{comment}',  [CommentController::class,"destroy"])->name("comment.destroy")->middleware('auth');
 
 
-Route::resource('application', ApplicationController::class);
+Route::resource('application', ApplicationController::class)->middleware('auth');
 
 
 
