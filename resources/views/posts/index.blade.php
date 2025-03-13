@@ -104,7 +104,6 @@
                                                             class="d-flex align-items-center me-5">
                                                             <i class="fa-solid fa-pen-nib text-secondary fs-6"></i>
                                                         </a>
-                                                    @endauth
                                                 @endcan
                                             </div>
                                         </div>

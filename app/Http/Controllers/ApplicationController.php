@@ -2,18 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Appllication;
-use App\Http\Requests\StoreAppllicationRequest;
-use App\Http\Requests\UpdateAppllicationRequest;
+use App\Http\Requests\StoreApplicationRequest;
+use App\Http\Requests\UpdateApplicationRequest;
+use App\Models\Application;
 
-class AppllicationController extends Controller
+class ApplicationController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $applications = Application::all();
+
+        return view('application.index');
     }
 
     /**
@@ -27,7 +29,7 @@ class AppllicationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreAppllicationRequest $request)
+    public function store(StoreApplicationRequest $request)
     {
         //
     }
@@ -35,7 +37,7 @@ class AppllicationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Appllication $appllication)
+    public function show(Application $application)
     {
         //
     }
@@ -43,7 +45,7 @@ class AppllicationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Appllication $appllication)
+    public function edit(Application $application)
     {
         //
     }
@@ -51,7 +53,7 @@ class AppllicationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAppllicationRequest $request, Appllication $appllication)
+    public function update(UpdateApplicationRequest $request, Application $application)
     {
         //
     }
@@ -59,7 +61,7 @@ class AppllicationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Appllication $appllication)
+    public function destroy(Application $application)
     {
         //
     }

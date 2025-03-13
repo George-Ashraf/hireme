@@ -49,4 +49,11 @@ class Post extends Model
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
+
+
+    public function appllication(){
+        return $this->hasMany(Appllication::class);
+    }
+
+
 }
