@@ -52,6 +52,8 @@ class AppServiceProvider extends ServiceProvider
     Gate::define('candidate-only', function () {
         return auth()->check() && auth()->user()->role === 'candidate';
     });
-
+    Gate::define('admin-or-employer', function () {
+        return auth()->check() && auth()->user()->role === 'admin' || auth()->check() && auth()->user()->role === 'employer';
+    });
     }
 }

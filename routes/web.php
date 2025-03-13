@@ -32,6 +32,7 @@ Route::resource('post', PostController::class)->middleware('auth');
 Route::get('pendingposts',[PostController::class,'pending'])->name('pending.index');
 Route::get('myposts',[PostController::class,'myposts'])->name('myposts.index');
 Route::get('status/{id}',[PostController::class,'status'])->name('posts.status');
+Route::get('/search',[PostController::class,'search'])->name('post.search');
 Route::post('/posts/{post}/comments',  [CommentController::class,"store"])->name("comment.store")->middleware('auth');
 Route::get('/posts/{post}/comments/{comment}',  [CommentController::class,"edit"])->name("comment.edit")->middleware('auth');
 Route::put('/posts/{post}/comments/{comment}',  [CommentController::class,"update"])->name("comment.update")->middleware('auth');
@@ -43,6 +44,8 @@ Route::delete('/posts/{post}/comments/{comment}',  [CommentController::class,"de
 
 
 route::get('craetecategory',[CategoryController::class,'create'])->name('category.create');
+route::get('showpostofcategory/{id}',[CategoryController::class,'show'])->name('category.show');
+
 route::post('storecategory',[CategoryController::class,'store'])->name('category.store');
 route::get('editcategory/{id}',[CategoryController::class,'edit'])->name('category.edit');
 route::post('updatecategory/{id}',[CategoryController::class,'update'])->name('category.update');

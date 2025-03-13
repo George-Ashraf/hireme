@@ -9,7 +9,26 @@
         <div class="navbar-nav ms-auto p-4 p-lg-0">
             <a href="{{ route('home') }}" class="nav-item nav-link">Home</a>
             <a href="{{ route('home') }}" class="nav-item nav-link">About</a>
+            @can('candidate-only')
             <a href="{{ route('post.index') }}" class="nav-item nav-link">Jobs</a>
+
+            @else
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  jobs
+                </a>
+
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{{ route('post.index') }}">All jobs</a></li>
+                    <li><a class="dropdown-item" href="{{ route('post.create') }}">create job</a></li>
+
+                  </ul>
+
+
+              </li>
+            @endcan
+
+
         </div>
         <a href="contact.html" class="nav-item nav-link">Contact</a>
     </div>

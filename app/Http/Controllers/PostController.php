@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Gate;
 
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use Illuminate\Http\Request;
+
 
 use function Pest\Laravel\post;
 
@@ -23,7 +25,7 @@ class PostController extends Controller
      */
     public function index()
     {
-         // Fetch all posts and group them by 'work_type'
+
          $posts = Post::where('status','Published')->get()->groupBy('work_type');
 
 
@@ -31,6 +33,23 @@ class PostController extends Controller
          return view('posts.index',compact('posts'));
 
     }
+    public function search(Request $request)
+    {
+        $name = $request->search;
+
+        $search_post = Post::where('status', 'Published')
+            ->where(function ($query) use ($name) {
+                $query->orWhere('skills', 'like', '%' . $name . '%')
+                    ->orWhere('salary', 'like', '%' . $name . '%')
+                    ->orWhere('job_title', 'like', '%' . $name . '%')
+                    ->orWhere('location', 'like', '%' . $name . '%');
+            })
+            ->get();
+
+        return view('posts.search', compact('search_post', 'name'));
+    }
+
+
 
     public function pending()
     {
@@ -76,7 +95,8 @@ class PostController extends Controller
      */
     public function create(Post $post)
     {
-        // Gate::authorize('create-post', $post);
+
+        Gate::authorize('admin-or-employer');
 
         $categories = Category::all();
         return view('posts.create', compact('categories'));
@@ -88,7 +108,8 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        // dd($request);
+        Gate::authorize('admin-or-employer');
+       
         $imagename = null;
 
         if ($request->hasFile('image')) {

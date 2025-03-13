@@ -10,7 +10,7 @@
                     <!-- Name -->
                     <div class="form-group mb-3">
                         <label for="name">Name</label>
-                        <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required
+                        <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}"
                             autofocus autocomplete="name">
                         <x-input-error :messages="$errors->get('name')" class="mt-2" />
                     </div>
@@ -19,7 +19,7 @@
                     <div class="form-group mb-3">
                         <label for="email">Email</label>
                         <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}"
-                            required autocomplete="username">
+                             autocomplete="username">
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
 
@@ -33,7 +33,7 @@
                     <!-- Role Selection -->
                     <div class="form-group mb-3">
                         <label for="role">Role</label>
-                        <select id="role" class="form-control" name="role" required onchange="toggleFields()">
+                        <select id="role" class="form-control" name="role"  onchange="toggleFields()">
                             <option value="candidate" {{ old('role') == 'candidate' ? 'selected' : '' }}>Candidate
                             </option>
                             <option value="employer" {{ old('role') == 'employer' ? 'selected' : '' }}>Employer</option>
@@ -63,7 +63,7 @@
                     <!-- Password -->
                     <div class="form-group mb-3">
                         <label for="password">Password</label>
-                        <input id="password" type="password" class="form-control" name="password" required
+                        <input id="password" type="password" class="form-control" name="password" 
                             autocomplete="new-password">
                         <x-input-error :messages="$errors->get('password')" class="mt-2" />
                     </div>
@@ -72,7 +72,7 @@
                     <div class="form-group mb-3">
                         <label for="password_confirmation">Confirm Password</label>
                         <input id="password_confirmation" type="password" class="form-control"
-                            name="password_confirmation" required autocomplete="new-password">
+                            name="password_confirmation"  autocomplete="new-password">
                         <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                     </div>
 
