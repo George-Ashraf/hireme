@@ -104,24 +104,23 @@
                                                             class="d-flex align-items-center me-5">
                                                             <i class="fa-solid fa-pen-nib text-secondary fs-6"></i>
                                                         </a>
-                                                    @endauth
-                                                @endcan
+                                                    @endcan
+                                                </div>
                                             </div>
+
+
                                         </div>
-
-
                                     </div>
-                                </div>
-                            @endforeach
-                            <a class="btn btn-primary py-3 px-5 shadow-sm d-block mx-auto" href="#">Browse
-                                More Jobs</a>
-                        </div>
-                    @endforeach
-                </div>
+                                @endforeach
+                                <a class="btn btn-primary py-3 px-5 shadow-sm d-block mx-auto" href="#">Browse
+                                    More Jobs</a>
+                            </div>
+                        @endforeach
+                    </div>
 
+                </div>
             </div>
         </div>
-    </div>
 
 
 </x-app-layout>

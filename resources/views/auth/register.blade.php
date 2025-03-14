@@ -45,7 +45,7 @@
                     <!-- Resume (Only for Candidates) -->
                     <div id="resume-container" class="form-group mb-3">
                         <label for="resume">Upload Resume <span class="text-danger">*</span> </label>
-                        <input id="resume" type="file" class="form-control" name="resume" required
+                        <input id="resume" type="file" class="form-control" name="resume"
                             accept=".pdf,.doc,.docx">
                         <x-input-error :messages="$errors->get('resume')" class="mt-2" />
                     </div>
