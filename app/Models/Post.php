@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Comment;
+use App\Models\Application;
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -49,4 +50,11 @@ class Post extends Model
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
+
+
+    public function application(){
+        return $this->hasMany(Application::class, 'job_id');
+    }
+
+
 }

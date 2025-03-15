@@ -73,6 +73,7 @@
                                                                 class="text-danger ms-2 fw-bold">{{ $post->closed_date }}</span>
                                                         </span>
                                                     </div>
+
                                                 </div>
                                             </div>
 
@@ -106,11 +107,10 @@
                                                         </a>
                                                     @endcan
                                                 </div>
+
+
                                             </div>
-
-
                                         </div>
-                                    </div>
                                 @endforeach
                                 <a class="btn btn-primary py-3 px-5 shadow-sm d-block mx-auto" href="#">Browse
                                     More Jobs</a>

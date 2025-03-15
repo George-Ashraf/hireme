@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Category;
+
 use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Support\Facades\Gate;
@@ -24,7 +25,8 @@ class PostController extends Controller
     public function index()
     {
         // Fetch all posts and group them by 'work_type'
-        $posts = Post::all()->groupBy('work_type');
+        $posts = Post::with('application')->get()->groupBy('work_type');
+
 
         return view('posts.index', compact('posts'));
     }
@@ -40,7 +42,7 @@ class PostController extends Controller
     {
         $categories = Category::all();
         return view('posts.create', compact('categories'));
-        // return view('posts.create') ;  
+        // return view('posts.create') ;
     }
 
     /**

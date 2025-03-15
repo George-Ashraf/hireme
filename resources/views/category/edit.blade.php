@@ -15,7 +15,7 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">icon</label>
-                <input type="text" class="form-control @error('icon') is-invalid @enderror" name="icon"
+                <input type="text" class="form-control  @error('icon') is-invalid @enderror" name="icon"
                     value="{{ $category->icon }}">
                 @error('icon')
                 <p class="text-danger">{{ $message }}</p>

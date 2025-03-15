@@ -1,5 +1,16 @@
 <x-app-layout>
-
+    <div class="position-fixed bottom-0 end-0 p-5" style="z-index: 1050">
+        <div id="successToast" class="toast align-items-center text-white bg-success border-0" role="alert"
+            aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    {{ session('success') }}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
     <div class="container-xxl py-5 bg-dark page-header mb-5">
         <div class="container my-5 pt-5 pb-4">
             <h1 class="display-3 text-white mb-3 animated slideInDown">Job Detail</h1>
@@ -12,9 +23,11 @@
             </nav>
         </div>
     </div>
+
     <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
         <div class="container">
             <div class="row gy-5 gx-4">
+                {{-- Job Info --}}
                 <div class="col-lg-8">
                     <div class="d-flex align-items-center mb-5">
                         <img class="flex-shrink-0 img-fluid border rounded" src="{{ asset('storage/' . $post->image) }}"
@@ -46,11 +59,70 @@
 
                         </ul>
                     </div>
+
+                    {{-- Application  --}}
                     @if (auth()->user()->id != $post->user_id && auth()->user()->role == 'candidate')
-                        <button class="btn btn-primary w-100" type="submit">Apply Now</button>
+                        {{-- User Show Button --}}
+                        @if ($post->application()->where('user_id', auth()->id())->exists())
+                            <div class="col-5 mt-5">
+                                <button class="btn btn-success w-100" type="submit" disabled>✔ Applied - Show Your
+                                    Application</button>
+                            </div>
+                        @else
+                            <form action="{{ route('application.store') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="job_id" value="{{ $post->id }}" />
+                                <div class="col-3 mt-5">
+                                    <button class="btn btn-success w-100" type="submit">Apply Now >></button>
+                                </div>
+                            </form>
+                        @endif
+
+
+
+
+                        {{-- Employer Application --}}
+                    @elseif (auth()->user()->id === $post->user_id && auth()->user()->role === 'employer')
+                        <hr class="mt-5">
+                        <h4 class="text-center mb-4 mt-5 wow fadeInUp" data-wow-delay="0.1s">Applications List</h4>
+
+                        <table class="table table-bordered table-hover shadow-sm mt-5">
+                            <thead class="table-primary text-center">
+                                <tr>
+                                    <th>Profile pic</th>
+                                    <th>Candidate</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                                @forelse ($post->application as $application)
+                                    <tr>
+                                        <td>
+                                            <img src="{{ asset('storage/' . $application->user->image) }}"
+                                                alt="User Image" class="rounded-circle" width="40" height="40">
+                                        </td>
+                                        <td>{{ $application->user->name }}</td>
+                                        <td>
+                                            <a href="" class="btn btn-sm btn-dark"></a>
+
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('application.show', $application->id) }}"
+                                                class="btn btn-sm btn-dark">Show</a>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <div class="alert-danger alert mt-3">No applications</div>
+                                @endforelse
+                            </tbody>
+                        </table>
                     @endif
                 </div>
 
+
+
+                {{-- Job Summary --}}
                 <div class="col-lg-4 border-b-2">
                     <div class="bg-light rounded p-5 mb-4 wow slideInUp position-relative " data-wow-delay="0.1s">
                         @if ($post->status == 'Published')
@@ -83,6 +155,9 @@
             </div>
         </div>
     </div>
+
+
+    {{-- Commments --}}
     @if ($post->status == 'Published')
         <div class="container wow slideInUp position-relative ">
             <h4 class="mb-4">Comments</h4>
@@ -112,8 +187,8 @@
                                                 style="font-size:12px;">
                                                 ⋮
                                             </button>
-                                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton"
-                                                style="font-size:12px;">
+                                            <ul class="dropdown-menu dropdown-menu-end"
+                                                aria-labelledby="dropdownMenuButton" style="font-size:12px;">
                                                 <li>
                                                     <a class="dropdown-item"
                                                         href="{{ route('comment.edit', ['post' => $post, 'comment' => $comment]) }}">
@@ -146,20 +221,13 @@
                     @endforeach
                 </div>
             @endif
-
-
-
-
-
-
-
             <div class="col-8">
                 <form action="{{ route('comment.store', ['post' => $post]) }}" method="POST">
                     @csrf
                     <div class="mb-3">
 
-                        <textarea class="form-control" id="comment" name="body" rows="3" placeholder="Write your comment here..."
-                            required></textarea>
+                        <textarea class="form-control" id="comment" name="body" rows="3"
+                            placeholder="Write your comment here..." required></textarea>
                     </div>
 
                     <button type="submit" class="btn btn-primary">Add Your Comment</button>
@@ -169,6 +237,20 @@
         </div>
     @endif
 
+
+
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var successToast = document.getElementById("successToast");
+            if (successToast && "{{ session('success') }}" !== "") {
+                var toast = new bootstrap.Toast(successToast);
+                toast.show();
+            }
+        });
+    </script>
 
 
 

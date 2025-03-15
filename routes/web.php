@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ApplicationController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CommentController;
 
@@ -12,7 +13,7 @@ require __DIR__.'/auth.php';
 
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
- 
+
 
 
 route::get('/',[HomeController::class,'index'])->name('home');
@@ -34,6 +35,7 @@ Route::put('/posts/{post}/comments/{comment}',  [CommentController::class,"updat
 Route::delete('/posts/{post}/comments/{comment}',  [CommentController::class,"destroy"])->name("comment.destroy")->middleware('auth');
 
 
+Route::resource('application', ApplicationController::class)->middleware('auth');
 
 
 
