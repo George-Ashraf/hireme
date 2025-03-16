@@ -15,7 +15,11 @@
             </div>
             <div class="mb-3">
                 <label class="form-label">icon</label>
+<<<<<<< HEAD
                 <input type="text" class="form-control  @error('icon') is-invalid @enderror" name="icon"
+=======
+                <input type="text" class="form-control @error('icon') is-invalid @enderror" name="icon"
+>>>>>>> origin/george
                     value="{{ $category->icon }}">
                 @error('icon')
                 <p class="text-danger">{{ $message }}</p>
@@ -33,4 +37,8 @@
 
 
 
+<<<<<<< HEAD
 </x-app-layout>
+=======
+</x-app-layout>
+>>>>>>> origin/george

@@ -61,7 +61,7 @@
                     </div>
 
                     {{-- Application  --}}
-                    @if (auth()->user()->id != $post->user_id && auth()->user()->role == 'candidate')
+                    @if (auth()->user() && auth()->user()->id != $post->user_id && auth()->user()->role == 'candidate')
                         {{-- User Show Button --}}
                         @if ($post->application()->where('user_id', auth()->id())->exists())
                             <div class="col-3 mt-5">
@@ -83,7 +83,7 @@
 
 
                         {{-- Employer Application --}}
-                    @elseif (auth()->user()->id === $post->user_id && auth()->user()->role === 'employer')
+                    @elseif (auth()->user() && auth()->user()->id === $post->user_id && auth()->user()->role === 'employer')
                         <hr class="mt-5">
                         <h4 class="text-center mb-4 mt-5 wow fadeInUp" data-wow-delay="0.1s">Applications List</h4>
 
@@ -105,7 +105,10 @@
                                         </td>
                                         <td>{{ $application->user->name }}</td>
                                         <td>
-                                            <a href="" class="btn btn-sm btn-dark"></a>
+                                            <span
+                                                class="badge {{ $application->status == 'Approved' ? 'bg-success' : 'bg-danger' }}">
+                                                {{ $application->status }}
+                                            </span>
 
                                         </td>
                                         <td>
@@ -118,6 +121,14 @@
                                 @endforelse
                             </tbody>
                         </table>
+                    @elseif (!auth()->user())
+                        <form action="{{ route('application.store') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="job_id" value="{{ $post->id }}" />
+                            <div class="col-3 mt-5">
+                                <button class="btn btn-success w-100" type="submit">Apply Now >></button>
+                            </div>
+                        </form>
                     @endif
                 </div>
 
@@ -237,10 +248,6 @@
             </div>
         </div>
     @endif
-
-
-
-
 
 
     <script>

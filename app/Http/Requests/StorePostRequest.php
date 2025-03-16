@@ -23,25 +23,25 @@ class StorePostRequest extends FormRequest
     {
 
         return [
-            'skills'            => 'nullable|string',
-            'salary'            => 'nullable|numeric|min:0|max:999999.99',
-            'job_title'         => 'nullable|string|max:255',
-            'location'          => 'nullable|string|max:255',
-            'work_type'         => 'nullable|in:remote,hybrid,onsite',
-            'description'       => 'nullable|string',
-            'image'             => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'responsibility'    => 'nullable|string',
-            'qualification'     => 'nullable|string',
-            'benefits'          => 'nullable|string',
-            'experience_level'  => 'nullable|in:junior,mid_level,senior',
-            'closed_date'       => 'nullable|date|after_or_equal:today',
-            'category_id'       => 'nullable|exists:categories,id',
-            'user_id'           => 'nullable|exists:users,id',
+            'skills'            => 'required|string',
+            'salary'            => 'required|numeric|min:0|max:999999.99',
+            'job_title'         => 'required|string|max:255',
+            'location'          => 'required|string|max:255',
+            'work_type'         => 'required|in:remote,hybrid,onsite',
+            'description'       => 'required|string',
+            'image'             => 'required|image|max:5048',
+            'responsibility'    => 'required|string',
+            'qualification'     => 'required|string',
+            'benefits'          => 'required|string',
+            'experience_level'  => 'required|in:junior,mid_level,senior',
+            'closed_date'       => 'required|date|after_or_equal:today',
+            'category_id'       => 'required|exists:categories,id',
+
         ];
+
     }
 
-    function messages(): array
-    {
+    function messages(): array{
 
         return [
             'salary.numeric'           => 'Salary must be a valid number.',
@@ -55,7 +55,9 @@ class StorePostRequest extends FormRequest
             'experience_level.in'      => 'Experience level must be junior, mid_level, or senior.',
             'closed_date.after_or_equal' => 'The closing date must be today or in the future.',
             'category_id.exists'       => 'Selected category does not exist.',
-            'user_id.exists'           => 'Invalid user ID.'
+         
         ];
     }
+
+   
 }

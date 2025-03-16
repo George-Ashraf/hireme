@@ -5,44 +5,80 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Category;
-
 use Illuminate\Support\Facades\Storage;
-
-use Illuminate\Support\Facades\Gate;
-
 use Illuminate\Support\Facades\Auth;
-
-
-
+use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
-
+use Illuminate\Http\Request;
 class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
-        // Fetch all posts and group them by 'work_type'
-        $posts = Post::with('application')->get()->groupBy('work_type');
-
-
+        $posts = Post::where('status', 'Published')->get()->groupBy('work_type');
         return view('posts.index', compact('posts'));
     }
 
+    public function search(Request $request)
+    {
+        $name = $request->search;
 
+        $search_post = Post::where('status', 'Published')
+            ->where(function ($query) use ($name) {
+                $query->orWhere('skills', 'like', '%' . $name . '%')
+                    ->orWhere('salary', 'like', '%' . $name . '%')
+                    ->orWhere('job_title', 'like', '%' . $name . '%')
+                    ->orWhere('location', 'like', '%' . $name . '%');
+            })
+            ->get();
 
+        return view('posts.search', compact('search_post', 'name'));
+    }
 
+    public function pending()
+    {
+        Gate::authorize('admin-only');
+
+        $pendingposts = Post::orderby('status', 'ASC')->get();
+
+        return view('posts.pending', compact('pendingposts'));
+    }
+
+    public function myposts()
+    {
+        Gate::authorize('employer-only');
+        $myposts = Post::where('user_id', Auth::user()->id)->get();
+        return view('posts.myposts', compact('myposts'));
+    }
+
+    public function status($id)
+    {
+        Gate::authorize('admin-only');
+        $post = Post::findOrFail($id);
+        if ($post->status == 'Pending') {
+            $post->status = 'Published';
+            $post->save();
+            return redirect()->back();
+        } else {
+            $post->status = 'Pending';
+            $post->save();
+            return redirect()->back();
+        }
+    }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create(Post $post)
     {
+      
+
         $categories = Category::all();
         return view('posts.create', compact('categories'));
-        // return view('posts.create') ;
     }
 
     /**
@@ -58,21 +94,16 @@ class PostController extends Controller
             $imagename = $request->file('image')->store('posts', 'public');
         }
 
-        // Prepare data for insertion
-
-
         $request_data = $request->validated();
         $request_data['image'] = $imagename;
         $request_data['status'] = 'Pending';
         $request_data['user_id'] = Auth::id();
 
-
-        // Create the Post
         Post::create($request_data);
 
-        // Redirect back with a success message
         return redirect()->route('post.index');
     }
+
     /**
      * Display the specified resource.
      */
@@ -94,27 +125,19 @@ class PostController extends Controller
 
     public function update(UpdatePostRequest $request, Post $post)
     {
-        // Check if the authenticated user is authorized to update the post
         Gate::authorize('update-post', $post);
 
-        // Prepare data for update
         $request_data = $request->validated();
 
-        // Handle image update if a new one is uploaded
         if ($request->hasFile('image')) {
-            // Delete the old image if it exists
             if ($post->image) {
                 Storage::disk('public')->delete($post->image);
             }
-
-            // Store the new image
             $request_data['image'] = $request->file('image')->store('posts', 'public');
         }
 
-        // Update the post
         $post->update($request_data);
 
-        // Redirect with a success message
         return redirect()->route('post.index', $post)->with('success', 'Post updated successfully.');
     }
 
@@ -123,17 +146,12 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-
-
-        // Delete the associated image if it exists
         if ($post->image) {
             Storage::disk('public')->delete($post->image);
         }
 
-        // Delete the post
         $post->delete();
 
-        // Redirect with a success message
         return redirect()->route('post.index');
     }
 }

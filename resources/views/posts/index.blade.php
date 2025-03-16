@@ -11,17 +11,27 @@
         </div>
     </div>
     <div class="container-xxl bg-white p-0">
-
         <div class="container-xxl py-5">
             <div class="container">
                 {{-- <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Job Listing</h1> --}}
-                @if (auth()->user()->role === 'employer')
+                @if (auth()->user() && auth()->user()->role === 'employer')
                     <a href="{{ route('post.create') }}" class="btn btn-secondary m-3">Add job post</a>
                 @endif
+                <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Job Listing</h1>
+
+                <div class="searchBox mx-auto my-4">
+                    <form action="{{ route('post.search') }}" method="GET">
+                        <input class="searchInput" type="text" name="search" placeholder="Search something"
+                            value="{{ request()->query('search', '') }}">
+                        <button class="searchButton">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </form>
+                </div>
 
                 <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
                     <!-- Tab navigation -->
-                    <ul class="nav nav-pills d-iwnline-flex justify-content-center border-bottom mb-5">
+                    <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
                         @foreach ($posts as $workType => $jobs)
                             <li class="nav-item">
                                 <!-- Ensure that href corresponds to tab id -->
@@ -33,6 +43,7 @@
                         @endforeach
                     </ul>
 
+                    <!-- Tab content -->
                     <div class="tab-content">
                         @foreach ($posts as $workType => $jobs)
                             <div id="{{ Str::slug($workType) }}"
@@ -73,27 +84,28 @@
                                                                 class="text-danger ms-2 fw-bold">{{ $post->closed_date }}</span>
                                                         </span>
                                                     </div>
-
                                                 </div>
                                             </div>
 
                                             <!-- Actions Section -->
                                             <div
-                                                class="col-sm-12 col-md-4 d-flex flex-column align-items-md-end  justify-content-center text-md-end">
+                                                class="col-sm-12 col-md-4 d-flex flex-column align-items-md-end justify-content-center text-md-end">
                                                 <div class="mb-3">
-                                                    @if (auth()->user()->role === 'candidate')
-                                                        <a class="btn btn-primary px-4 py-2  shadow-sm"
-                                                            href="{{ route('post.show', $post->id) }}">Apply Now</a>
+                                                    @if (auth()->user() && auth()->user()->role === 'candidate')
+                                                        <a class="btn btn-primary px-4 py-2 shadow-sm"
+                                                            href="{{ route('post.show', $post->id) }}">Apply
+                                                            Now</a>
                                                     @else
                                                         <a class="btn btn-outline-primary px-4 py-2 shadow-sm"
-                                                            href="{{ route('post.show', $post->id) }}">Show Details</a>
+                                                            href="{{ route('post.show', $post->id) }}">Show
+                                                            Details</a>
                                                     @endif
                                                 </div>
 
                                                 <div class="d-flex align-items-center justify-content-md-end mt-2">
                                                     @can('delete-post', $post)
                                                         <form action="{{ route('post.destroy', $post) }}" method="post"
-                                                            class="d-flex align-items-center gap-3 ">
+                                                            class="d-flex align-items-center gap-3">
                                                             @csrf
                                                             @method('delete')
                                                             <button type="submit"
@@ -107,20 +119,18 @@
                                                         </a>
                                                     @endcan
                                                 </div>
-
-
                                             </div>
                                         </div>
+                                    </div>
                                 @endforeach
                                 <a class="btn btn-primary py-3 px-5 shadow-sm d-block mx-auto" href="#">Browse
                                     More Jobs</a>
                             </div>
                         @endforeach
                     </div>
-
                 </div>
+
             </div>
         </div>
-
-
+    </div>
 </x-app-layout>

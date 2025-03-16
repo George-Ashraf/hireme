@@ -58,20 +58,24 @@
                 <h5 class="fw-bold text-dark">Application Details</h5>
                 <p><strong>Submitted At:</strong> {{ $application->created_at }}</p>
                 <p><strong>Last Updated At:</strong> {{ $application->updated_at }}</p>
+
                 <p><strong>Status:</strong> {{ $application->status }}</p>
+                @if (auth()->user()->role === 'candidate')
+                    <div class="d-flex gap-3">
+                        <!-- Withdraw Application -->
+                        <form action="{{ route('application.destroy', $application) }}" method="post">
+                            @csrf
+                            @method('delete')
+                            <button type="submit" class="btn btn-danger">Withdraw Application</button>
+                        </form>
 
-                <div class="d-flex gap-3">
-                    <!-- Withdraw Application -->
-                    <form action="{{ route('application.destroy', $application) }}" method="post">
-                        @csrf
-                        @method('delete')
-                        <button type="submit" class="btn btn-danger">Withdraw Application</button>
-                    </form>
+                        <!-- Update Resume -->
+                        <a href="{{ route('application.edit', $application->id) }}" class="btn btn-secondary">Update
+                            Resume</a>
+                    </div>
+                    {{-- @elseif () --}}
+                @endif
 
-                    <!-- Update Resume -->
-                    <a href="{{ route('application.edit', $application->id) }}" class="btn btn-secondary">Update
-                        Resume</a>
-                </div>
             </div>
 
 
