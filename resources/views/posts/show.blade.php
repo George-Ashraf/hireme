@@ -64,9 +64,10 @@
                     @if (auth()->user()->id != $post->user_id && auth()->user()->role == 'candidate')
                         {{-- User Show Button --}}
                         @if ($post->application()->where('user_id', auth()->id())->exists())
-                            <div class="col-5 mt-5">
-                                <button class="btn btn-success w-100" type="submit" disabled>✔ Applied - Show Your
-                                    Application</button>
+                            <div class="col-3 mt-5">
+                                <a class="btn btn-secondary w-100"
+                                    href="{{ route('application.show',$post->application()->where('user_id', auth()->id())->first()->id) }}"
+                                    style="font-size:14px"> Show Your Application</a>
                             </div>
                         @else
                             <form action="{{ route('application.store') }}" method="POST">

@@ -43,9 +43,9 @@ class ApplicationController extends Controller
         $data = $request->all();
         $data['user_id'] = auth()->user()->id;
         $data['status'] = 'Pending';
-        Application::create($data);
-        return to_route("post.show", ["post" => $data['job_id']])
-        ->with('success', 'Application submitted successfully!');
+        $application= Application::create($data);
+      
+        return to_route("application.show", compact("application"));
     }
 
     /**
@@ -53,8 +53,9 @@ class ApplicationController extends Controller
      */
     public function show(Application $application)
     {
-        //
-    }
+        $post = Post::where('id', $application->job_id)->first();
+        return view('applications.show', compact('application', 'post'));     
+     }
 
     /**
      * Show the form for editing the specified resource.
