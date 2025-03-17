@@ -12,28 +12,28 @@
 
         <div class="mb-3">
             <label for="update_password_current_password" class="form-label">Current Password</label>
-            <input type="password" id="update_password_current_password" name="current_password" class="form-control"
-                autocomplete="current-password">
+            <input type="password" id="update_password_current_password" name="current_password"
+                class="form-control @error('current_password') is-invalid @enderror" autocomplete="current-password">
             @if ($errors->updatePassword->has('current_password'))
-            <div class="text-danger mt-2">{{ $errors->updatePassword->first('current_password') }}</div>
+                <div class="text-danger mt-2">{{ $errors->updatePassword->first('current_password') }}</div>
             @endif
         </div>
 
         <div class="mb-3">
             <label for="update_password_password" class="form-label">New Password</label>
-            <input type="password" id="update_password_password" name="password" class="form-control"
-                autocomplete="new-password">
+            <input type="password" id="update_password_password" name="password"
+                class="form-control  @error('password') is-invalid @enderror" autocomplete="new-password">
             @if ($errors->updatePassword->has('password'))
-            <div class="text-danger mt-2">{{ $errors->updatePassword->first('password') }}</div>
+                <div class="text-danger mt-2">{{ $errors->updatePassword->first('password') }}</div>
             @endif
         </div>
 
         <div class="mb-3">
             <label for="update_password_password_confirmation" class="form-label">Confirm Password</label>
             <input type="password" id="update_password_password_confirmation" name="password_confirmation"
-                class="form-control" autocomplete="new-password">
+                class="form-control  @error('password_confirmation') is-invalid @enderror" autocomplete="new-password">
             @if ($errors->updatePassword->has('password_confirmation'))
-            <div class="text-danger mt-2">{{ $errors->updatePassword->first('password_confirmation') }}</div>
+                <div class="text-danger mt-2">{{ $errors->updatePassword->first('password_confirmation') }}</div>
             @endif
         </div>
 
@@ -41,12 +41,12 @@
             <button type="submit" class="btn btn-primary">Save</button>
 
             @if (session('status') === 'password-updated')
-            <p class="text-success small m-0" id="password-update-success">Saved.</p>
-            <script>
-            setTimeout(() => {
-                document.getElementById('password-update-success').style.display = 'none';
-            }, 2000);
-            </script>
+                <p class="text-success small m-0" id="password-update-success">Saved.</p>
+                <script>
+                    setTimeout(() => {
+                        document.getElementById('password-update-success').style.display = 'none';
+                    }, 2000);
+                </script>
             @endif
         </div>
     </form>

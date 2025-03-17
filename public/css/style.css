@@ -5,7 +5,11 @@
     --light: #effdf5;
     --dark: #2b3940;
 }
-
+.dropdown-menu[data-bs-popper] {
+    top: 100%;
+    left: -110px;
+    margin-top: 0.125rem;
+}
 .back-to-top {
     position: fixed;
     display: none;
@@ -13,7 +17,56 @@
     bottom: 45px;
     z-index: 99;
 }
+/* From Uiverse.io by OnlyCodeChannel */
+.searchBox {
+    display: flex;
+    max-width: 230px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #2f3640;
+    border-radius: 50px;
+    position: relative;
+}
 
+/* search */
+.searchButton {
+    color: white;
+    position: absolute;
+    top: 9px;
+    right: 8px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(
+        --gradient-2,
+        linear-gradient(90deg, #2af598 0%, #009efd 100%)
+    );
+    border: 0;
+    display: inline-block;
+    transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+/*hover effect*/
+.searchButton:hover {
+    color: #fff;
+    background-color: #1a1a1a;
+    box-shadow: rgba(0, 0, 0, 0.5) 0 10px 20px;
+    transform: translateY(-3px);
+}
+/*button pressing effect*/
+.searchButton:active {
+    box-shadow: none;
+    transform: translateY(0);
+}
+
+.searchInput {
+    border: none;
+    background: none;
+    outline: none;
+    color: white;
+    font-size: 15px;
+    padding: 24px 46px 24px 26px;
+}
 /*** Spinner ***/
 #spinner {
     opacity: 0;
@@ -177,7 +230,6 @@
         position: relative;
         min-height: 500px;
     }
-
     .header-carousel .owl-carousel-item img {
         position: absolute;
         width: 100%;

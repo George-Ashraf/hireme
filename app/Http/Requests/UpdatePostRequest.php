@@ -23,7 +23,6 @@ class UpdatePostRequest extends FormRequest
     {
         return [
             'skills'            => 'sometimes|nullable|string',
-            'company'           => 'sometimes|nullable|string|max:255',
             'salary'            => 'sometimes|nullable|numeric|min:0|max:999999.99',
             'job_title'         => 'sometimes|nullable|string|max:255',
             'location'          => 'sometimes|nullable|string|max:255',

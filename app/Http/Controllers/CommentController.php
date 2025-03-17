@@ -24,21 +24,30 @@ class CommentController extends Controller
 
     }
 
-
+    public function edit($post,Comment $comment )
+    {
+        return  view("comments.edit" ,compact("post","comment"));
+    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCommentRequest $request, Comment $comment)
+    public function update(UpdateCommentRequest $request,$post, Comment $comment )
     {
-        //
+        $comment->update([
+            'body' => $request->body,
+        ]);
+        return to_route("post.show",["post"=>$post]);
+    
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Comment $comment)
+    public function destroy($post,Comment $comment )
     {
-        //
+         $comment->delete();
+         return to_route("post.show",["post"=>$post]);
+
     }
 }
