@@ -19,22 +19,28 @@
                         </thead>
                         <tbody class="text-center">
                             @foreach ($applications as $application)
-                                    <tr>
-                                        <td>
-                                            <img src="{{ asset('storage/' . $application->user->image) }}"
-                                                 alt="User Image" class="rounded-circle" width="40" height="40">
-                                        </td>
-                                        <td>{{ $application->user->name }}</td>
-                                        <td>{{ $application->post->job_title }}</td>
-                                        <td>
-                                            <span class="badge {{ $application->status == 'Approved' ? 'bg-success' : 'bg-danger' }}">
-                                                {{ $application->status }}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('application.show', $application->id) }}" class="btn btn-sm btn-dark">Show</a>
-                                        </td>
-                                    </tr>
+                            <tr>
+                                <td>
+                                    <img src="{{ asset('storage/' . $application->user->image) }}" alt="User Image"
+                                        class="rounded-circle" width="40" height="40">
+                                </td>
+                                <td>{{ $application->user->name }}</td>
+                                <td>{{ $application->post->job_title }}</td>
+                                <td>
+                                    <p class="d-flex align-items-center">
+                                        <span
+                                            class="badge rounded-pill bg-{{ $application->status === 'Approved' ? 'success' : ($application->status === 'Rejected' ? 'danger' : 'warning') }}">
+                                            <i
+                                                class="fas fa-{{ $application->status === 'Approved' ? 'check' : ($application->status === 'Rejected' ? 'times' : 'clock') }} me-1"></i>
+                                            {{ $application->status }}
+                                        </span>
+                                    </p>
+                                </td>
+                                <td>
+                                    <a href="{{ route('application.show', $application->id) }}"
+                                        class="btn btn-sm btn-dark">Show</a>
+                                </td>
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>

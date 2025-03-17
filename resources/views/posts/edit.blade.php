@@ -1,7 +1,6 @@
 <x-app-layout>
-
-    <div class=" bg-white ">
-        <div class="container p-5 ">
+    <div class="bg-white">
+        <div class="container p-5">
             <div class="card p-4 shadow m-5">
                 <h2 class="mb-4">Edit Job Post</h2>
 
@@ -10,37 +9,37 @@
                     @method('PUT')
 
                     <div class="form-group mb-3">
-                        <label for="job_title">Job Title</label>
+                        <label for="job_title" class="form-label">Job Title</label>
                         <input type="text" class="form-control" name="job_title"
                             value="{{ old('job_title', $post->job_title) }}" required>
                     </div>
 
                     <div class="form-group mb-3">
-                        <label for="description">Job Description</label>
-                        <input type="text" class="form-control" name="description"
-                            value="{{ old('description', $post->description) }}" required>
+                        <label for="description" class="form-label">Job Description</label>
+                        <textarea class="form-control" name="description" rows="3"
+                            required>{{ old('description', $post->description) }}</textarea>
                     </div>
 
                     <div class="form-group mb-3">
-                        <label for="company">Company Name</label>
+                        <label for="company" class="form-label">Company Name</label>
                         <input type="text" class="form-control" name="company"
                             value="{{ auth()->user()->company ?? old('company', $post->company) }}" readonly required>
                     </div>
 
                     <div class="form-group mb-3">
-                        <label for="salary">Salary</label>
+                        <label for="salary" class="form-label">Salary</label>
                         <input min="0" type="number" step="1" class="form-control" name="salary"
                             value="{{ old('salary', $post->salary) }}">
                     </div>
 
                     <div class="form-group mb-3">
-                        <label for="location">Location</label>
+                        <label for="location" class="form-label">Location</label>
                         <input type="text" class="form-control" name="location"
                             value="{{ old('location', $post->location) }}" required>
                     </div>
 
                     <div class="form-group mb-3">
-                        <label for="work_type">Work Type</label>
+                        <label for="work_type" class="form-label">Work Type</label>
                         <select class="form-control" name="work_type">
                             <option value="remote"
                                 {{ old('work_type', $post->work_type) == 'remote' ? 'selected' : '' }}>Remote</option>
@@ -52,7 +51,7 @@
                     </div>
 
                     <div class="form-group mb-3">
-                        <label for="experience_level">Experience Level</label>
+                        <label for="experience_level" class="form-label">Experience Level</label>
                         <select class="form-control" name="experience_level">
                             <option value="junior"
                                 {{ old('experience_level', $post->experience_level) == 'junior' ? 'selected' : '' }}>
@@ -67,37 +66,37 @@
                     </div>
 
                     <div class="form-group mb-3">
-                        <label for="skills">Skills (Comma-separated)</label>
+                        <label for="skills" class="form-label">Skills (Comma-separated)</label>
                         <textarea class="form-control" name="skills"
                             rows="2">{{ old('skills', $post->skills) }}</textarea>
                     </div>
 
                     <div class="form-group mb-3">
-                        <label for="responsibility">Responsibilities</label>
+                        <label for="responsibility" class="form-label">Responsibilities</label>
                         <textarea class="form-control" name="responsibility"
                             rows="3">{{ old('responsibility', $post->responsibility) }}</textarea>
                     </div>
 
                     <div class="form-group mb-3">
-                        <label for="qualification">Qualifications</label>
+                        <label for="qualification" class="form-label">Qualifications</label>
                         <textarea class="form-control" name="qualification"
                             rows="3">{{ old('qualification', $post->qualification) }}</textarea>
                     </div>
 
                     <div class="form-group mb-3">
-                        <label for="benefits">Benefits</label>
+                        <label for="benefits" class="form-label">Benefits</label>
                         <textarea class="form-control" name="benefits"
                             rows="3">{{ old('benefits', $post->benefits) }}</textarea>
                     </div>
 
                     <div class="form-group mb-3">
-                        <label for="closed_date">Application Deadline</label>
+                        <label for="closed_date" class="form-label">Application Deadline</label>
                         <input type="date" class="form-control" name="closed_date"
                             value="{{ old('closed_date', $post->closed_date) }}">
                     </div>
 
                     <div class="form-group mb-3">
-                        <label for="image">Job Image</label>
+                        <label for="image" class="form-label">Job Image</label>
                         <input type="file" class="form-control-file" name="image">
                         @if($post->image)
                         <p class="mt-2">Current Image:</p>
@@ -106,7 +105,7 @@
                     </div>
 
                     <div class="form-group mb-3">
-                        <label for="category_id">Category</label>
+                        <label for="category_id" class="form-label">Category</label>
                         <select class="form-control" name="category_id" required>
                             <option value="">Select a Category</option>
                             @foreach($categories as $category)
@@ -123,5 +122,4 @@
             </div>
         </div>
     </div>
-
 </x-app-layout>
