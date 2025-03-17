@@ -25,7 +25,8 @@
                             <span class="d-flex align-items-center">
                                 <i class="far fa-calendar-alt text-primary me-2"></i>
                                 <span class="fw-semibold text-dark">Deadline:</span>
-                                <span class="text-danger ms-1 fw-bold">{{ \Carbon\Carbon::parse($post->closed_date)->format('F j, Y') }}</span>
+                                <span
+                                    class="text-danger ms-1 fw-bold">{{ \Carbon\Carbon::parse($post->closed_date)->format('F j, Y') }}</span>
                             </span>
                         </div>
                     </div>
@@ -34,28 +35,35 @@
                 <!-- Actions Section -->
                 <div class="col-md-4 text-md-end mt-3 mt-md-0">
                     @if (auth()->user() && auth()->user()->role === 'candidate')
-                    <a class="btn btn-primary px-4 py-2 shadow-sm fw-semibold" href="{{ route('post.show', $post->id) }}">Apply Now</a>
-                    @else
-                    <a class="btn btn-outline-primary px-4 py-2 shadow-sm fw-semibold" href="{{ route('post.show', $post->id) }}">Show Details</a>
-                    @endif
+                    @if($post->closed_date < now()) <a class="btn btn-danger px-4 py-2 shadow-sm fw-semibold disabled"
+                        href="#">Closed</a>
+                        @else
+                        <a class="btn btn-primary px-4 py-2 shadow-sm fw-semibold"
+                            href="{{ route('post.show', $post->id) }}">Apply Now</a>
+                        @endif
+                        @else
+                        <a class="btn btn-outline-primary px-4 py-2 shadow-sm fw-semibold"
+                            href="{{ route('post.show', $post->id) }}">Show Details</a>
+                        @endif
 
-                    @can('delete-post', $post)
-                    <div class="dropdown d-inline ms-2">
-                        <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            ⋮
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="{{ route('post.edit', $post->id) }}">Edit</a></li>
-                            <li>
-                                <form action="{{ route('post.destroy', $post) }}" method="post">
-                                    @csrf
-                                    @method('delete')
-                                    <button type="submit" class="dropdown-item">Delete</button>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-                    @endcan
+                        @can('delete-post', $post)
+                        <div class="dropdown d-inline ms-2">
+                            <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                ⋮
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="{{ route('post.edit', $post->id) }}">Edit</a></li>
+                                <li>
+                                    <form action="{{ route('post.destroy', $post) }}" method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="submit" class="dropdown-item">Delete</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                        @endcan
                 </div>
             </div>
         </div>

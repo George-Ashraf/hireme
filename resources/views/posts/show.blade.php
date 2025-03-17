@@ -74,7 +74,18 @@
                         @csrf
                         <input type="hidden" name="job_id" value="{{ $post->id }}" />
                         <div class="col-3 mt-5">
-                            <button class="btn btn-success w-100" type="submit">Apply Now >></button>
+
+
+                            @if($post->closed_date < now()) <button class="btn btn-danger w-100" type="submit" disabled>
+                                Closed</button>
+                                @else <button class="btn btn-success w-100" type="submit">
+                                    Apply Now >></button>
+
+                                @endif
+
+
+
+
                         </div>
                     </form>
                     @endif
@@ -162,7 +173,7 @@
                         <p><i class="fa fa-angle-right text-primary me-2"></i>Salary: {{ $post->salary }}</p>
                         <p><i class="fa fa-angle-right text-primary me-2"></i>Location: {{ $post->location }}</p>
                         <p class="m-0"><i class="fa fa-angle-right text-primary me-2"></i>Close Date:
-                            {{ $post->closed_date }}
+                            {{ \Carbon\Carbon::parse($post->closed_date)->format('l jS \\of F Y ') }}
                         </p>
                     </div>
                     <div class="bg-light rounded p-5 wow slideInUp" data-wow-delay="0.1s">
