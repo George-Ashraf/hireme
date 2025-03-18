@@ -11,18 +11,14 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use Illuminate\Http\Request;
+
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-
     public function index()
     {
         $posts = Post::where('status', 'Published')->get()->groupBy('work_type');
         return view('posts.index', compact('posts'));
     }
-
     public function search(Request $request)
     {
         $name = $request->search;
@@ -75,7 +71,7 @@ class PostController extends Controller
      */
     public function create(Post $post)
     {
-      
+
 
         $categories = Category::all();
         return view('posts.create', compact('categories'));
@@ -128,6 +124,8 @@ class PostController extends Controller
         Gate::authorize('update-post', $post);
 
         $request_data = $request->validated();
+        // after update make the  status pending
+        $request_data['status'] = 'Pending';
 
         if ($request->hasFile('image')) {
             if ($post->image) {
@@ -138,8 +136,10 @@ class PostController extends Controller
 
         $post->update($request_data);
 
-        return redirect()->route('post.index', $post)->with('success', 'Post updated successfully.');
+        return redirect()->route('myposts.index', $post)->with('success', 'Post updated successfully.');
     }
+
+
 
     /**
      * Remove the specified resource from storage.

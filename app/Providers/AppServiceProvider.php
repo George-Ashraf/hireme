@@ -32,8 +32,7 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrapFive();
         Paginator::useBootstrapFour();
 
-        // define middleware
-        # 1- define gate
+
         Gate::define('store-post', function (User $user) {
             return $user->role === 'employer';
         });
@@ -53,6 +52,12 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('employer-only', function () {
             return Auth::check() && Auth::user()->role === 'employer';
         });
+
+
+        Gate::define('admin-only', function () {
+            return Auth::check() && Auth::user()->role === 'admin';
+        });
+
         Gate::define('candidate-only', function () {
             return Auth::check() && Auth::user()->role === 'candidate';
         });

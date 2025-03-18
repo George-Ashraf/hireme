@@ -34,8 +34,8 @@
                                 </span>
 
                                 <span class="d-flex align-items-center">
-                                    <i class="far fa-clock text-primary me-2"></i>
-                                    <span class="text-muted">{{ $post->work_type }}</span>
+                                    <i class="fas fa-globe text-primary me-2"></i>
+                                    <span class=" text-muted">{{ $post->work_type }}</span>
                                 </span>
 
                                 <span class="d-flex align-items-center">
@@ -64,9 +64,9 @@
                     <p class="d-flex align-items-center">
                         <strong class="me-2">Status:</strong>
                         <span
-                            class="badge rounded-pill bg-{{ $application->status === 'Approved' ? 'success' : ($application->status === 'Rejected' ? 'danger' : 'warning') }}">
+                            class="badge rounded-pill bg-{{ $application->status === 'Accepted' ? 'success' : ($application->status === 'Rejected' ? 'danger' : 'warning') }}">
                             <i
-                                class="fas fa-{{ $application->status === 'Approved' ? 'check' : ($application->status === 'Rejected' ? 'times' : 'clock') }} me-1"></i>
+                                class="fas fa-{{ $application->status === 'Accepted' ? 'check' : ($application->status === 'Rejected' ? 'times' : 'clock') }} me-1"></i>
                             {{ $application->status }}
                         </span>
                     </p>
@@ -113,9 +113,9 @@
                             <div class="col-4 mb-2">
                                 <form action="{{ route('application.status', $application) }}" method="post">
                                     @csrf
-                                    <input type="hidden" name="status" value="Approved">
+                                    <input type="hidden" name="status" value="Accepted">
                                     <button type="submit" class="btn btn-success btn-sm w-100" @if($application->status
-                                        === 'Approved') disabled @endif>
+                                        === 'Accepted') disabled @endif>
                                         <i class="fas fa-check me-2"></i>Accept
                                     </button>
                                 </form>

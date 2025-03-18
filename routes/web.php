@@ -37,7 +37,7 @@ Route::get('pendingposts', [PostController::class, 'pending'])->name('pending.in
 Route::get('myposts', [PostController::class, 'myposts'])->name('myposts.index');
 // Toggle post status (active/inactive)
 Route::get('status/{id}', [PostController::class, 'status'])->name('posts.status');
-// Toggle application status (pending/approved)
+// Toggle application status (pending/Accepted)
 Route::post('status/application/{id}', [ApplicationController::class, 'status'])->name('application.status');
 // Search functionality for posts
 Route::get('/search', [PostController::class, 'search'])->name('post.search');

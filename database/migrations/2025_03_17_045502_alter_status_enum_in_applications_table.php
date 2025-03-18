@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         // Modify existing enum column to include 'Rejected'
-        DB::statement("ALTER TABLE applications MODIFY COLUMN status ENUM('Pending', 'Approved', 'Rejected') NULL");
+        DB::statement("ALTER TABLE applications MODIFY COLUMN status ENUM('Pending', 'Accepted', 'Rejected') NULL");
     }
 
     /**
@@ -22,6 +22,6 @@ return new class extends Migration
     public function down(): void
     {
         // Revert enum column back to original values
-        DB::statement("ALTER TABLE applications MODIFY COLUMN status ENUM('Pending', 'Approved') NULL");
+        DB::statement("ALTER TABLE applications MODIFY COLUMN status ENUM('Pending', 'Accepted') NULL");
     }
 };

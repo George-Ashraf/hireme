@@ -33,9 +33,8 @@ class UpdatePostRequest extends FormRequest
             'qualification'     => 'sometimes|nullable|string',
             'benefits'          => 'sometimes|nullable|string',
             'experience_level'  => 'sometimes|nullable|in:junior,mid_level,senior',
-            'closed_date'       => 'sometimes|nullable|date|after_or_equal:today',
+            'closed_date'       => 'sometimes|nullable|date',
             'category_id'       => 'sometimes|nullable|exists:categories,id',
-            'user_id'           => 'sometimes|nullable|exists:users,id',
         ];
     }
 
@@ -55,7 +54,6 @@ class UpdatePostRequest extends FormRequest
             'experience_level.in'      => 'Experience level must be junior, mid_level, or senior.',
             'closed_date.after_or_equal' => 'The closing date must be today or in the future.',
             'category_id.exists'       => 'Selected category does not exist.',
-            'user_id.exists'           => 'Invalid user ID.'
-        ];   
+        ];
     }
 }

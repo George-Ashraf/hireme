@@ -37,7 +37,7 @@
                             <span class="text-truncate me-3"><i
                                     class="fa fa-map-marker-alt text-primary me-2"></i>{{ $post->location }}</span>
                             <span class="text-truncate me-3"><i
-                                    class="far fa-clock text-primary me-2"></i>{{ $post->work_type }}</span>
+                                    class="fa-solid fa-globe text-primary me-2"></i>{{ $post->work_type }}</span>
                             <span class="text-truncate me-0"><i
                                     class="far fa-money-bill-alt text-primary me-2"></i>{{ $post->salary }}EGP</span>
                         </div>
@@ -101,12 +101,18 @@
 
                     <table class="table table-bordered table-hover shadow-sm mt-5">
                         <thead class="table-primary text-center">
+                            @foreach ($post->application as $application)
+                            @if(($application->attributesToArray()))
                             <tr>
                                 <th>Profile pic</th>
                                 <th>Candidate</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
+                            @break
+                            @endif
+                            @endforeach
+
                         </thead>
                         <tbody class="text-center">
                             @forelse ($post->application as $application)
@@ -119,9 +125,9 @@
                                 <td>
                                     <p>
                                         <span
-                                            class="badge rounded-pill bg-{{ $application->status === 'Approved' ? 'success' : ($application->status === 'Rejected' ? 'danger' : 'warning') }}">
+                                            class="badge rounded-pill bg-{{ $application->status === 'Accepted' ? 'success' : ($application->status === 'Rejected' ? 'danger' : 'warning') }}">
                                             <i
-                                                class="fas fa-{{ $application->status === 'Approved' ? 'check' : ($application->status === 'Rejected' ? 'times' : 'clock') }} me-1"></i>
+                                                class="fas fa-{{ $application->status === 'Accepted' ? 'check' : ($application->status === 'Rejected' ? 'times' : 'clock') }} me-1"></i>
                                             {{ $application->status }}
                                         </span>
                                     </p>

@@ -2,10 +2,10 @@
     @foreach ($posts as $workType => $jobs)
     <div id="{{ Str::slug($workType) }}" class="tab-pane fade {{ $loop->first ? 'show active' : '' }} p-0">
         @foreach ($jobs as $post)
-        <div class="job-item p-4 mb-4 border rounded-3 shadow-sm bg-white">
-            <div class="row align-items-center">
+        <div class="job-item p-4 mb-4 border shadow-sm bg-white" style="border-radius: 10px;">
+            <div class="row align-items-center p-4 ">
                 <!-- Job Image & Details -->
-                <div class="col-md-8 d-flex align-items-center gap-3">
+                <div class="col-md-9 d-flex align-items-center gap-3">
                     <img class="img-fluid border rounded" src="{{ asset('storage/' . $post->image) }}" alt="Job Image"
                         style="width: 80px; height: 80px; object-fit: cover;">
                     <div class="flex-grow-1">
@@ -17,7 +17,7 @@
                                 <i class="fa fa-map-marker-alt text-primary me-2"></i>{{ $post->location }}
                             </span>
                             <span class="d-flex align-items-center">
-                                <i class="far fa-clock text-primary me-2"></i>{{ $post->work_type }}
+                                <i class="fa-solid fa-globe text-primary me-2"></i>{{ $post->work_type }}
                             </span>
                             <span class="d-flex align-items-center">
                                 <i class="far fa-money-bill-alt text-primary me-2"></i>${{ $post->salary }}
@@ -33,7 +33,7 @@
                 </div>
 
                 <!-- Actions Section -->
-                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                <div class="col-md-3 text-md-end   mt-3 ">
                     @if (auth()->user() && auth()->user()->role === 'candidate')
                     @if($post->closed_date < now()) <a class="btn btn-danger px-4 py-2 shadow-sm fw-semibold disabled"
                         href="#">Closed</a>

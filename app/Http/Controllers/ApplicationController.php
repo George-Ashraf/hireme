@@ -17,15 +17,9 @@ class ApplicationController extends Controller
      */
     public function index()
     {
-        $user = Auth::user(); // Get authenticated employer
-
-        // Get only posts created by this employer
-        $posts = Post::where('user_id', $user->id)->pluck('id');
-
-        // Fetch applications related to the employer's job posts
-        $applications = Application::whereIn('job_id', $posts)->get();
-
-        return view('applications.index', compact('applications'));
+        Gate::authorize('employer-only');
+        $posts = Post::where('user_id', auth::User()->id)->with('application')->paginate(3);
+        return view('applications.index', compact('posts'));
     }
 
     public function status($id)
@@ -35,7 +29,7 @@ class ApplicationController extends Controller
         $application = Application::findOrFail($id);
         $newStatus = request('status');
 
-        if (!in_array($newStatus, ['Pending', 'Approved', 'Rejected'])) {
+        if (!in_array($newStatus, ['Pending', 'Accepted', 'Rejected'])) {
             return redirect()->back();
         }
 
