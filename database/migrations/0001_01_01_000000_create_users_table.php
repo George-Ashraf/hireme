@@ -22,6 +22,7 @@ return new class extends Migration
             $table->enum('role', ['admin', 'employer', 'candidate'])->default('candidate');
             $table->string('phone', 20)->nullable();
             $table->string('resume')->nullable();
+            $table->text('skills')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

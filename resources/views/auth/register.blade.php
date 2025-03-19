@@ -29,7 +29,14 @@
                         <input id="phone" type="text" class="form-control" name="phone" value="{{ old('phone') }}">
                         <x-input-error :messages="$errors->get('phone')" class="mt-2" />
                     </div>
-
+                    
+                    <div class="form-group mb-3">
+                        <label for="skills">Skills (Comma-separated)</label>
+                        <textarea class="form-control @error('skills') is-invalid @enderror" name="skills" rows="2">{{ old('skills') }}</textarea>
+                        @error('skills')
+                        <p class="text-danger">{{ $message }}</p>
+                    @enderror
+                    </div>
                     <!-- Role Selection -->
                     <div class="form-group mb-3">
                         <label for="role">Role</label>
@@ -63,7 +70,7 @@
                     <!-- Password -->
                     <div class="form-group mb-3">
                         <label for="password">Password</label>
-                        <input id="password" type="password" class="form-control" name="password" 
+                        <input id="password" type="password" class="form-control" name="password"
                             autocomplete="new-password">
                         <x-input-error :messages="$errors->get('password')" class="mt-2" />
                     </div>

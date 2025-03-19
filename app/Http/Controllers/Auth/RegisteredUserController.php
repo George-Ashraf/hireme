@@ -36,14 +36,15 @@ class RegisteredUserController extends Controller
             'role' => ['required', 'in:admin,employer,candidate'],
             'company' => ['nullable', 'string', 'max:255'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'image' => ['nullable', 'image', 'max:2048'],
-            'resume' => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:4096'],
+            'resume' => 'file|max:4096|mimes:pdf',
+            'image' => 'file|max:1024|mimes:jpg,jpeg,webp,gif,svg',
+            'skills' => ['nullable', 'string', 'max:255'],
         ]);
-    
+
         // Handle file uploads
         $imagePath = $request->hasFile('image') ? $request->file('image')->store('profiles', 'public') : null;
         $resumePath = $request->hasFile('resume') ? $request->file('resume')->store('resumes', 'public') : null;
-    
+
         // Create user
         $user = User::create([
             'name' => $request->name,
@@ -53,14 +54,14 @@ class RegisteredUserController extends Controller
             'company' => $request->company ?? null,
             'image' => $imagePath,
             'resume' => $resumePath,
+            'skills' => $request->skills,
             'password' => Hash::make($request->password),
         ]);
-    
+
         event(new Registered($user));
-    
+
         Auth::login($user);
-    
+
         return redirect(route('home'));
     }
-    
 }
