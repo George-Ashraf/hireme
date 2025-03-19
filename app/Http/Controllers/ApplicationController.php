@@ -93,7 +93,14 @@ class ApplicationController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(Application $application)
-    {
-        
+{
+    // Check if user has permission to delete this application
+    if (auth()->id() !== $application->user_id) {
+        abort(403);
     }
+
+    $application->delete();
+    
+    return redirect()->route('post.index')->with('success', 'Application withdrawn successfully');
+}
 }

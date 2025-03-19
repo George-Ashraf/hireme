@@ -82,6 +82,7 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request, User $user)
     {
+       
         Gate::authorize('store-post', $user);
 
         $imagename = null;
@@ -94,7 +95,6 @@ class PostController extends Controller
         $request_data['image'] = $imagename;
         $request_data['status'] = 'Pending';
         $request_data['user_id'] = Auth::id();
-
         Post::create($request_data);
 
         return redirect()->route('post.index');
@@ -149,7 +149,8 @@ class PostController extends Controller
         if ($post->image) {
             Storage::disk('public')->delete($post->image);
         }
-
+        $post->comments()->delete();
+        $post->application()->delete();
         $post->delete();
 
         return redirect()->route('post.index');

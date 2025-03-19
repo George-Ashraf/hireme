@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="position-fixed bottom-0 end-0 p-5" style="z-index: 1050">
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1050">
         <div id="successToast" class="toast align-items-center text-white bg-success border-0" role="alert"
             aria-live="assertive" aria-atomic="true">
             <div class="d-flex">
@@ -11,7 +11,7 @@
             </div>
         </div>
     </div>
-    <div class="container-xxl py-5 bg-dark page-header mb-5">
+    <div class="container-xxl py-2 bg-dark page-header mb-5">
         <div class="container my-5 pt-5 pb-4">
             <h1 class="display-3 text-white mb-3 animated slideInDown">Job Detail</h1>
             <nav aria-label="breadcrumb">
@@ -54,7 +54,7 @@
 
                         <ul class="flex-wrap list-unstyled d-flex  gap-2">
                             @foreach (explode(',', $post->skills) as $skill)
-                            <li class="border border-success bg-success text-white p-2">{{ $skill }}</li>
+                                <li class="border border-success bg-success text-white p-2">{{ $skill }}</li>
                             @endforeach
 
                         </ul>
@@ -62,95 +62,168 @@
 
                     {{-- Application  --}}
                     @if (auth()->user() && auth()->user()->id != $post->user_id && auth()->user()->role == 'candidate')
-                    {{-- User Show Button --}}
-                    @if ($post->application()->where('user_id', auth()->id())->exists())
-                    <div class="col-3 mt-5">
-                        <a class="btn btn-secondary w-100"
-                            href="{{ route('application.show',$post->application()->where('user_id', auth()->id())->first()->id) }}"
-                            style="font-size:14px"> Show Your Application</a>
-                    </div>
-                    @else
-                    <form action="{{ route('application.store') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="job_id" value="{{ $post->id }}" />
-                        <div class="col-3 mt-5">
+                        {{-- User Show Button --}}
+                        @if ($post->application()->where('user_id', auth()->id())->exists())
+                            <div class="col-3 mt-5">
+                                <a class="btn btn-secondary w-100"
+                                    href="{{ route('application.show',$post->application()->where('user_id', auth()->id())->first()->id) }}"
+                                    style="font-size:14px"> Show Your Application</a>
+                            </div>
+                        @else
+                            <form action="{{ route('application.store') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="job_id" value="{{ $post->id }}" />
+                                <div class="col-3 mt-5">
+                                    @if (!$post->closed_date > now())
+                                        <button class="btn btn-success w-100" type="submit">
+                                            Apply Now >></button>
+                                    @endif
+                                </div>
+                            </form>
+                        @endif
 
 
-                            @if($post->closed_date < now()) <button class="btn btn-danger w-100" type="submit" disabled>
-                                Closed</button>
-                                @else <button class="btn btn-success w-100" type="submit">
-                                    Apply Now >></button>
+                        {{-- Employer Application --}}
+                    @elseif (auth()->user() && auth()->user()->id === $post->user_id && auth()->user()->role === 'employer')
+                        <hr class="mt-5">
+                        <h4 class="text-center mb-4 mt-5 wow fadeInUp" data-wow-delay="0.1s">Applications List</h4>
 
-                                @endif
+                        <table class="table table-bordered table-hover shadow-sm mt-5">
+                            <thead class="table-primary text-center">
+                                @foreach ($post->application as $application)
+                                    @if ($application->attributesToArray())
+                                        <tr>
+                                            <th>Profile pic</th>
+                                            <th>Candidate</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                        @break
+                                    @endif
+                                @endforeach
 
+                            </thead>
+                            <tbody class="text-center">
+                                @forelse ($post->application as $application)
+                                    <tr>
+                                        <td>
+                                            <img src="{{ asset('storage/' . $application->user->image) }}"
+                                                alt="User Image" class="rounded-circle" width="40" height="40">
+                                        </td>
+                                        <td>{{ $application->user->name }}</td>
+                                        <td>
+                                            <p>
+                                                <span
+                                                    class="badge rounded-pill bg-{{ $application->status === 'Accepted' ? 'success' : ($application->status === 'Rejected' ? 'danger' : 'warning') }}">
+                                                    <i
+                                                        class="fas fa-{{ $application->status === 'Accepted' ? 'check' : ($application->status === 'Rejected' ? 'times' : 'clock') }} me-1"></i>
+                                                    {{ $application->status }}
+                                                </span>
+                                            </p>
 
-
-
-                        </div>
-                    </form>
-                    @endif
-
-
-
-
-                    {{-- Employer Application --}}
-                    @elseif (auth()->user() && auth()->user()->id === $post->user_id && auth()->user()->role ===
-                    'employer')
-                    <hr class="mt-5">
-                    <h4 class="text-center mb-4 mt-5 wow fadeInUp" data-wow-delay="0.1s">Applications List</h4>
-
-                    <table class="table table-bordered table-hover shadow-sm mt-5">
-                        <thead class="table-primary text-center">
-                            @foreach ($post->application as $application)
-                            @if(($application->attributesToArray()))
-                            <tr>
-                                <th>Profile pic</th>
-                                <th>Candidate</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                            @break
-                            @endif
-                            @endforeach
-
-                        </thead>
-                        <tbody class="text-center">
-                            @forelse ($post->application as $application)
-                            <tr>
-                                <td>
-                                    <img src="{{ asset('storage/' . $application->user->image) }}" alt="User Image"
-                                        class="rounded-circle" width="40" height="40">
-                                </td>
-                                <td>{{ $application->user->name }}</td>
-                                <td>
-                                    <p>
-                                        <span
-                                            class="badge rounded-pill bg-{{ $application->status === 'Accepted' ? 'success' : ($application->status === 'Rejected' ? 'danger' : 'warning') }}">
-                                            <i
-                                                class="fas fa-{{ $application->status === 'Accepted' ? 'check' : ($application->status === 'Rejected' ? 'times' : 'clock') }} me-1"></i>
-                                            {{ $application->status }}
-                                        </span>
-                                    </p>
-
-                                </td>
-                                <td>
-                                    <a href="{{ route('application.show', $application->id) }}"
-                                        class="btn btn-sm btn-dark">Show</a>
-                                </td>
-                            </tr>
-                            @empty
-                            <div class="alert-danger alert mt-3">No applications</div>
-                            @endforelse
-                        </tbody>
-                    </table>
+                                        </td>
+                                        <td>
+                                            <a href="{{ route('application.show', $application->id) }}"
+                                                class="btn btn-sm btn-dark">Show</a>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <div class="alert-danger alert mt-3">No applications</div>
+                                @endforelse
+                            </tbody>
+                        </table>
                     @elseif (!auth()->user())
-                    <form action="{{ route('application.store') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="job_id" value="{{ $post->id }}" />
-                        <div class="col-3 mt-5">
-                            <button class="btn btn-success w-100" type="submit">Apply Now >></button>
+                        <form action="{{ route('application.store') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="job_id" value="{{ $post->id }}" />
+                            <div class="col-3 mt-5">
+                                <button class="btn btn-success w-100" type="submit">Apply Now >></button>
+                            </div>
+                        </form>
+                    @endif
+                    {{-- Commments --}}
+                    @if ($post->status == 'Published')
+                        <div class=" wow slideInUp position-relative mt-0"> {{-- Added mt-0 to remove top margin --}}
+                            <h4 class="mb-4">Comments</h4>
+
+                            @if ($post->comments)
+                                <div class="rounded my-2 col-12"> {{-- Reduced my-2 if needed --}}
+                                    @foreach ($post->comments as $comment)
+                                        <div class="border-b p-2 mb-2 bg-white rounded-lg"> {{-- Changed my-2 to mb-2 --}}
+                                            <div class="d-flex align-items-center gap-3  pb-2 position-relative">
+
+
+                                                <img src="{{ asset('storage/' . $comment->user->image) }}"
+                                                    alt="User Profile" class="rounded-circle border"
+                                                    style="height: 50px; width: 50px; object-fit: contain; object-position: center;">
+
+                                                <div>
+                                                    <p class="mb-0">
+                                                        {{ $comment->user ? $comment->user->name : 'null' }}</p>
+                                                    <p class="text-dark my-0 py-0" style="font-size:10px">
+                                                        {{ $comment->user ? $comment->user->role : 'null' }}
+                                                    </p>
+
+                                                </div>
+                                                @can('update-comment', $comment)
+                                                    <div class="position-absolute end-0">
+                                                        <div class="dropdown">
+                                                            <button class="btn btn-outline-success btn-sm dropdown-toggle"
+                                                                type="button" id="dropdownMenuButton"
+                                                                data-bs-toggle="dropdown" aria-expanded="false"
+                                                                style="font-size:12px;">
+                                                                ⋮
+                                                            </button>
+                                                            <ul class="dropdown-menu dropdown-menu-end"
+                                                                aria-labelledby="dropdownMenuButton"
+                                                                style="font-size:12px;">
+                                                                <li>
+                                                                    <a class="dropdown-item"
+                                                                        href="{{ route('comment.edit', ['post' => $post, 'comment' => $comment]) }}">
+                                                                        Edit
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <form
+                                                                        action="{{ route('comment.destroy', ['post' => $post, 'comment' => $comment]) }}"
+                                                                        method="POST" class="d-inline">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="submit"
+                                                                            class="dropdown-item text-dark"
+                                                                            onclick="return confirm('Are you sure you want to delete this job?');">
+                                                                            Delete
+                                                                        </button>
+                                                                    </form>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                @endcan
+
+
+                                            </div>
+                                            <p class=" ms-2 mx-auto  my-2">{{ $comment->body }}</p>
+
+
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
+                            <div class="col-12">
+                                <form action="{{ route('comment.store', ['post' => $post]) }}" method="POST">
+                                    @csrf
+                                    <div class="mb-3">
+
+                                        <textarea class="form-control" id="comment" name="body" rows="3"
+                                            placeholder="Write your comment here..." required></textarea>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">Add Your Comment</button>
+                                </form>
+
+                            </div>
                         </div>
-                    </form>
                     @endif
                 </div>
 
@@ -159,15 +232,24 @@
                 {{-- Job Summary --}}
                 <div class="col-lg-4 border-b-2">
                     <div class="bg-light rounded p-5 mb-4 wow slideInUp position-relative " data-wow-delay="0.1s">
-                        @if ($post->status == 'Published')
-                        <div
-                            class="position-absolute  top-0 end-0 border border-success bg-success text-white p-2  z-1 opacity-75">
-                            {{ $post->status }}
-                        </div>
-                        @elseif ($post->status == 'Pending')
-                        <div class="position-absolute   top-0 end-0   text-white p-2  z-1 opacity-75 bg-secondary">
-                            {{ $post->status }}
-                        </div>
+                        @if ($post->closed_date < now())
+                            <div class="position-absolute  top-0 end-0  bg-danger text-white p-2  z-1 opacity-75">
+                                closed
+                            </div>
+                        @else
+                            @if ($post->status == 'Published')
+                                <div
+                                    class="position-absolute  top-0 end-0 border border-success bg-success text-white p-2  z-1 opacity-75">
+                                    {{ $post->status }}
+                                </div>
+                            @elseif ($post->status == 'Pending')
+                                <div
+                                    class="position-absolute   top-0 end-0   text-white p-2  z-1 opacity-75 bg-secondary">
+                                    {{ $post->status }}
+                                </div>
+                            @endif
+
+
                         @endif
 
                         <h4 class="mb-4">Job Summery</h4>
@@ -194,86 +276,6 @@
     </div>
 
 
-    {{-- Commments --}}
-    @if ($post->status == 'Published')
-    <div class="container wow slideInUp position-relative ">
-        <h4 class="mb-4">Comments</h4>
-
-        @if ($post->comments)
-        <div class=" rounded my-2 col-8">
-            @foreach ($post->comments as $comment)
-            <div class="border-b p-2 my-2 bg-white rounded-lg">
-                <div class="d-flex align-items-center gap-3  pb-2 position-relative">
-
-
-                    <img src="{{ asset('storage/' . $comment->user->image) }}" alt="User Profile"
-                        class="rounded-circle border"
-                        style="height: 50px; width: 50px; object-fit: contain; object-position: center;">
-
-                    <div>
-                        <p class="mb-0">{{ $comment->user ? $comment->user->name : 'null' }}</p>
-                        <p class="text-dark my-0 py-0" style="font-size:10px">
-                            {{ $comment->user ? $comment->user->role : 'null' }}
-                        </p>
-
-                    </div>
-                    @can('update-comment', $comment)
-                    <div class="position-absolute end-0">
-                        <div class="dropdown">
-                            <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button"
-                                id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false"
-                                style="font-size:12px;">
-                                ⋮
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton"
-                                style="font-size:12px;">
-                                <li>
-                                    <a class="dropdown-item"
-                                        href="{{ route('comment.edit', ['post' => $post, 'comment' => $comment]) }}">
-                                        Edit
-                                    </a>
-                                </li>
-                                <li>
-                                    <form
-                                        action="{{ route('comment.destroy', ['post' => $post, 'comment' => $comment]) }}"
-                                        method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="dropdown-item text-dark"
-                                            onclick="return confirm('Are you sure you want to delete this job?');">
-                                            Delete
-                                        </button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    @endcan
-
-
-                </div>
-                <p class=" ms-2 mx-auto  my-2">{{ $comment->body }}</p>
-
-
-            </div>
-            @endforeach
-        </div>
-        @endif
-        <div class="col-8">
-            <form action="{{ route('comment.store', ['post' => $post]) }}" method="POST">
-                @csrf
-                <div class="mb-3">
-
-                    <textarea class="form-control" id="comment" name="body" rows="3"
-                        placeholder="Write your comment here..." required></textarea>
-                </div>
-
-                <button type="submit" class="btn btn-primary">Add Your Comment</button>
-            </form>
-
-        </div>
-    </div>
-    @endif
 
 
     <script>
