@@ -43,17 +43,15 @@ class ApplicationController extends Controller
         return redirect()->back();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    // public function create()
-    // {
-
-    // }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+    public function myapplications()
+    {
+        $applications = Application::where('user_id', Auth::id())
+        ->with('post')  // Eager load the related post
+        ->orderBy('created_at', 'desc')
+        ->get();
+        return view('applications.myapplications', compact('applications'));
+        
+    }
     public function store(StoreApplicationRequest $request)
     {
         $data = $request->all();

@@ -35,6 +35,7 @@ Route::resource('post', PostController::class)->only(['index', 'show']);
 Route::get('pendingposts', [PostController::class, 'pending'])->name('pending.index');
 // Show logged-in user's posts
 Route::get('myposts', [PostController::class, 'myposts'])->name('myposts.index');
+
 // Toggle post status (active/inactive)
 Route::get('status/{id}', [PostController::class, 'status'])->name('posts.status');
 // Toggle application status (pending/Accepted)
@@ -54,6 +55,7 @@ Route::delete('/posts/{post}/comments/{comment}', [CommentController::class, "de
 
 // Job Application Routes (All require authentication)
 Route::resource('application', ApplicationController::class)->middleware('auth');
+Route::get('myapplications', [ApplicationController::class, 'myapplications'])->name('myapplications.index');
 
 // Category Management Routes
 // Show category creation form

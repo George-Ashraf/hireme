@@ -10,22 +10,23 @@
             <a href="{{ route('home') }}" class="nav-item nav-link">Home</a>
             <a href="{{ route('home') }}" class="nav-item nav-link">About</a>
             @can('candidate-only')
-            <a href="{{ route('post.index') }}" class="nav-item nav-link">Jobs</a>
+                <a href="{{ route('post.index') }}" class="nav-item nav-link">Jobs</a>
             @else
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    jobs
-                </a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        jobs
+                    </a>
 
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="{{ route('post.index') }}">All jobs</a></li>
-                    <li><a class="dropdown-item" href="{{ route('post.create') }}">create job</a></li>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ route('post.index') }}">All jobs</a></li>
+                        <li><a class="dropdown-item" href="{{ route('post.create') }}">create job</a></li>
 
-                </ul>
+                    </ul>
 
 
-            </li>
+                </li>
+                <a href="{{ route('application.index') }}" class="nav-item nav-link">Your Jobs</a>
             @endcan
 
 
@@ -35,9 +36,9 @@
 
     <div class="d-flex align-items-center justify-content-end py-4 px-lg-5">
         @if (Route::has('login'))
-        <nav class="d-flex">
-            @auth
-            {{-- <x-dropdown align="right" width="48">
+            <nav class="d-flex">
+                @auth
+                    {{-- <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <button class="btn btn-light dropdown-toggle">
                                 {{ Auth::user()->name }}
@@ -50,44 +51,51 @@
 
             </x-slot>
             </x-dropdown> --}}
-            <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    {{ Auth::user()->name }}
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="{{ route('profile.edit') }}">profile</a></li>
-                    @if (auth()->user()->role == 'admin')
-                    <li>
-                        <a class="dropdown-item" href="{{ route('pending.index') }}">pending posts </a>
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            {{ Auth::user()->name }}
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ route('profile.edit') }}">profile</a></li>
+                            @if (auth()->user()->role == 'admin')
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('pending.index') }}">Pending Posts </a>
 
-                    </li>
-                    @elseif (auth()->user()->role == 'employer')
-                    <li>
-                        <a class="dropdown-item" href="{{ route('myposts.index') }}">my posts </a>
+                                </li>
+                            @elseif (auth()->user()->role == 'employer')
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('myposts.index') }}">My Posts </a>
 
-                    </li>
+                                </li>
+                            @elseif (auth()->user()->role == 'candidate')
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('myapplications.index') }}">All Applications
+                                    </a>
+
+                                </li>
+                            @endif
+
+                            <li>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+
+                                    <a class="dropdown-item"
+                                        onclick="event.preventDefault(); this.closest('form').submit();"
+                                        href="{{ route('logout') }}">log out</a>
+                                </form>
+
+                            </li>
+
+                        </ul>
+                    </div>
+                @else
+                    <a href="{{ route('login') }}" class="  me-5  ">Log in</a>
+                    @if (Route::has('register'))
+                        <a href="{{ route('register') }}" class="  ">Register</a>
                     @endif
-
-                    <li>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-
-                            <a class="dropdown-item" onclick="event.preventDefault(); this.closest('form').submit();"
-                                href="{{ route('logout') }}">log out</a>
-                        </form>
-
-                    </li>
-
-                </ul>
-            </div>
-            @else
-            <a href="{{ route('login') }}" class="  me-5  ">Log in</a>
-            @if (Route::has('register'))
-            <a href="{{ route('register') }}" class="  ">Register</a>
-            @endif
-            @endauth
-        </nav>
+                @endauth
+            </nav>
         @endif
     </div>
     </div>
