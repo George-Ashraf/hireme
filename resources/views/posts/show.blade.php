@@ -152,10 +152,20 @@
                                         <div class="border-b p-2 mb-2 bg-white rounded-lg"> {{-- Changed my-2 to mb-2 --}}
                                             <div class="d-flex align-items-center gap-3  pb-2 position-relative">
 
+                                                @if ($comment->user->image)
 
                                                 <img src="{{ asset('storage/' . $comment->user->image) }}"
                                                     alt="User Profile" class="rounded-circle border"
                                                     style="height: 50px; width: 50px; object-fit: contain; object-position: center;">
+                                                    @else
+                                                    @php
+                                                        $colors = ['#FF5733', '#33A1FF', '#33FF57', '#FFB733', '#8D33FF'];
+                                                    @endphp
+                                                    <div class="rounded-circle border d-flex align-items-center justify-content-center text-white"
+                                                        style="height: 50px; width: 50px; font-size: 20px; font-weight: bold; background-color: {{ $colors[$loop->index % count($colors)] }};">
+                                                        {{ Str::upper(Str::substr($comment->user->name, 0, 1)) }}
+                                                    </div>
+                                                @endif
 
                                                 <div>
                                                     <p class="mb-0">
@@ -191,7 +201,7 @@
                                                                         @method('DELETE')
                                                                         <button type="submit"
                                                                             class="dropdown-item text-dark"
-                                                                            onclick="return confirm('Are you sure you want to delete this job?');">
+                                                                            onclick="return confirm('Are you sure you want to delete this your?');">
                                                                             Delete
                                                                         </button>
                                                                     </form>
