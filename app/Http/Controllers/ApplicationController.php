@@ -78,6 +78,6 @@ class ApplicationController extends Controller
      */
     public function destroy(Application $application)
     {
-        //
+        
     }
 }

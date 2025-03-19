@@ -21,7 +21,7 @@
 
                 <div class="searchBox mx-auto my-4">
                     <form action="{{ route('post.search') }}" method="GET">
-                        <input class="searchInput" type="text" name="search" placeholder="Search something"
+                        <input class="searchInput " type="text" name="search" placeholder="Search something"
                             value="{{ request()->query('search', '') }}">
                         <button class="searchButton">
                             <i class="fa-solid fa-magnifying-glass"></i>
