@@ -9,25 +9,22 @@
         <div class="navbar-nav ms-auto p-4 p-lg-0">
             <a href="{{ route('home') }}" class="nav-item nav-link">Home</a>
             <a href="{{ route('home') }}" class="nav-item nav-link">About</a>
-            @can('candidate-only')
-                <a href="{{ route('post.index') }}" class="nav-item nav-link">Jobs</a>
-            @else
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        jobs
-                    </a>
+            @auth
+            @if (auth()->user()->role == 'employer')
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Jobs</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{{ route('post.index') }}">All Jobs</a></li>
+                    <li><a class="dropdown-item" href="{{ route('post.create') }}">Post a Job</a></li>
+                    <li><a class="dropdown-item" href="{{ route('application.index') }}">Job Applications Dashboard</a></li>
+                </ul>
+            </div>
+        @else
+            <a href="{{ route('post.index') }}" class="nav-item nav-link">Jobs</a>
+        @endif
 
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ route('post.index') }}">All jobs</a></li>
-                        <li><a class="dropdown-item" href="{{ route('post.create') }}">create job</a></li>
+            @endauth
 
-                    </ul>
-
-
-                </li>
-                <a href="{{ route('application.index') }}" class="nav-item nav-link">Your Jobs</a>
-            @endcan
 
 
         </div>
@@ -70,7 +67,7 @@
                                 </li>
                             @elseif (auth()->user()->role == 'candidate')
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('myapplications.index') }}">All Applications
+                                    <a class="dropdown-item" href="{{ route('myapplications.index') }}">My Applications
                                     </a>
 
                                 </li>
