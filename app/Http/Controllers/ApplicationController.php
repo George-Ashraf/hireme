@@ -7,6 +7,8 @@ use App\Http\Requests\UpdateApplicationRequest;
 use App\Models\Application;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class ApplicationController extends Controller
 {
@@ -15,24 +17,38 @@ class ApplicationController extends Controller
      */
     public function index()
     {
-        $user = auth()->user(); // Get authenticated employer
-
-        // Get only posts created by this employer
-        $posts = Post::where('user_id', $user->id)->pluck('id');
-
-        // Fetch applications related to the employer's job posts
-        $applications = Application::whereIn('job_id', $posts)->get();
-
-        return view('applications.index', compact('applications'));
+        Gate::authorize('employer-only');
+        $posts = Post::where('user_id', auth::User()->id)->with('application')->paginate(3);
+        return view('applications.index', compact('posts'));
     }
 
+    public function status($id)
+    {
+        Gate::authorize('employer-only');
+
+        $application = Application::findOrFail($id);
+        $newStatus = request('status');
+
+        if (!in_array($newStatus, ['Pending', 'Accepted', 'Rejected'])) {
+            return redirect()->back();
+        }
+
+        if ($newStatus === $application->status) {
+            return redirect()->back();
+        }
+
+        $application->status = $newStatus;
+        $application->save();
+
+        return redirect()->back();
+    }
 
     /**
      * Show the form for creating a new resource.
      */
     // public function create()
     // {
-        
+
     // }
 
     /**
@@ -41,10 +57,10 @@ class ApplicationController extends Controller
     public function store(StoreApplicationRequest $request)
     {
         $data = $request->all();
-        $data['user_id'] = auth()->user()->id;
+        $data['user_id'] = auth::user()->id;
         $data['status'] = 'Pending';
-        $application= Application::create($data);
-      
+        $application = Application::create($data);
+
         return to_route("application.show", compact("application"));
     }
 
@@ -54,8 +70,8 @@ class ApplicationController extends Controller
     public function show(Application $application)
     {
         $post = Post::where('id', $application->job_id)->first();
-        return view('applications.show', compact('application', 'post'));     
-     }
+        return view('applications.show', compact('application', 'post'));
+    }
 
     /**
      * Show the form for editing the specified resource.
