@@ -58,34 +58,34 @@
             <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Explore By Category</h1>
 
             @can('admin-only')
-            @auth
-            <a href="{{ route('category.create') }}" class="btn btn-primary mb-3">Add Category</a>
-            @endauth
+                @auth
+                    <a href="{{ route('category.create') }}" class="btn btn-primary mb-3">Add Category</a>
+                @endauth
             @endcan
 
             <div class="row g-4">
                 @forelse ($categories as $category)
-                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="cat-item rounded p-4">
-                        <i class="text-primary mb-4 fa fa-3x {{ $category->icon }}"></i>
-                        <h6 class="mb-3">
-                            <a href="{{ route('category.show', $category->id) }}"> {{ $category->name }}</a>
-                            @auth
-                            @can('admin-only')
-                            <a href="{{ route('category.delete', $category->id) }}"> <i
-                                    class="fa-solid fa-trash text-danger"></i></a>
-                            <a href="{{ route('category.edit', $category->id) }}"> <i
-                                    class="fa-solid fa-pen-nib text-secondary"></i></a>
-                            @endcan
-                            @endauth
-                        </h6>
-                        <p class="mb-0">{{ $category->posts_count }} Vacancy</p>
+                    <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="cat-item rounded p-4">
+                            <i class="text-primary mb-4 fa fa-3x {{ $category->icon }}"></i>
+                            <h6 class="mb-3">
+                                <a href="{{ route('category.show', $category->id) }}"> {{ $category->name }}</a>
+                                @auth
+                                    @can('admin-only')
+                                        <a href="{{ route('category.delete', $category->id) }}"> <i
+                                                class="fa-solid fa-trash text-danger"></i></a>
+                                        <a href="{{ route('category.edit', $category->id) }}"> <i
+                                                class="fa-solid fa-pen-nib text-secondary"></i></a>
+                                    @endcan
+                                @endauth
+                            </h6>
+                            <p class="mb-0">{{ $category->posts_count }} Vacancy</p>
+                        </div>
                     </div>
-                </div>
                 @empty
-                <div class="alert alert-danger text-center">
-                    <p>No categories available</p>
-                </div>
+                    <div class="alert alert-danger text-center">
+                        <p>No categories available</p>
+                    </div>
                 @endforelse
             </div>
         </div>
@@ -132,7 +132,7 @@
     <div class="container-xxl bg-white p-0">
         <div class="container-xxl py-5">
             <div class="container">
-                <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Job Listing</h1>
+                <h1 class="text-center mb-2 wow fadeInUp" data-wow-delay="0.1s">Job Listing</h1>
 
                 <div class="searchBox mx-auto my-4">
                     <form action="{{ route('post.search') }}" method="GET">
@@ -144,24 +144,33 @@
                     </form>
                 </div>
 
-                @auth
-                @if (auth()->user()->role === 'employer')
-                <a href="{{ route('post.create') }}" class="btn btn-secondary mb-4">Add Job Post</a>
-                @endif
-                @endauth
+
 
                 <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
                     <!-- Tab navigation -->
-                    <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
+
+                    <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mt-4 ">
                         @foreach ($posts as $workType => $jobs)
-                        <li class="nav-item">
-                            <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 {{ $loop->first ? 'active' : '' }}"
-                                data-bs-toggle="pill" href="#{{ Str::slug($workType) }}">
-                                <h6 class="mt-n1 mb-0">{{ $workType }}</h6>
-                            </a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 {{ $loop->first ? 'active' : '' }}"
+                                    data-bs-toggle="pill" href="#{{ Str::slug($workType) }}">
+                                    <h6 class="mt-n1 mb-0">{{ $workType }}</h6>
+                                </a>
+                            </li>
                         @endforeach
+
                     </ul>
+                    @auth
+                        @if (auth()->user()->role === 'employer')
+                            <div class="d-flex justify-content-end">
+                                <a href="{{ route('post.create') }}" class="btn btn-secondary mb-4 py-2 px-4">Add Job
+                                    Post</a>
+                            </div>
+                        @endif
+
+
+                    @endauth
+
 
                     @include('posts.job_list', ['posts' => $posts])
 
