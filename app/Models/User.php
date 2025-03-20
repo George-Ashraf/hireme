@@ -25,8 +25,9 @@ class User extends Authenticatable
         'company',
         'image',
         'resume',
+        'skills',
     ];
-    
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -51,7 +52,8 @@ class User extends Authenticatable
     }
 
 
-    public function application(){
+    public function application()
+    {
         return $this->hasMany(Application::class);
     }
 }

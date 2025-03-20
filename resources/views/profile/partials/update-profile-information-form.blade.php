@@ -10,7 +10,7 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-4">
+    <form method="post" action="{{ route('profile.update') }}" class="mt-4" enctype="multipart/form-data">
         @csrf
         @method('patch')
 
@@ -50,7 +50,52 @@
                 </div>
             @endif
         </div>
+        @can('employer-only')
+            <div class="mb-3">
+                <label class="form-label">company</label>
+                <input type="text" class="form-control  @error('company') is-invalid @enderror" name="company"
+                    value="{{ old('company', $user->company) }}" autocomplete="username">
+                @if ($errors->has('company'))
+                    <div class="text-danger mt-2">{{ $errors->first('company') }}</div>
+                @endif
+            </div>
+        @endcan
 
+        @can('candidate-only')
+            <div class="mb-3">
+                <label class="form-label">resume</label>
+                <input type="file" class="form-control  @error('resume') is-invalid @enderror"
+                    value="{{ old('resume', $user->resume) }}" autocomplete="username" name="resume">
+                @if ($errors->has('resume'))
+                    <div class="text-danger mt-2">{{ $errors->first('resume') }}</div>
+                @endif
+            </div>
+            <div class="mb-3">
+                <label class="form-label">skills</label>
+                <input type="text" class="form-control  @error('skills') is-invalid @enderror"
+                    value="{{ old('skills', $user->skills) }}" autocomplete="username" name="skills">
+                @if ($errors->has('skills'))
+                    <div class="text-danger mt-2">{{ $errors->first('skills') }}</div>
+                @endif
+            </div>
+        @endcan
+
+        <div class="mb-3">
+            <label class="form-label">image</label>
+            <input type="file" class="form-control  @error('image') is-invalid @enderror"
+                value="{{ old('image', $user->image) }}" autocomplete="username" name="image">
+            @if ($errors->has('image'))
+                <div class="text-danger mt-2">{{ $errors->first('image') }}</div>
+            @endif
+        </div>
+        <div class="mb-3">
+            <label class="form-label">phone</label>
+            <input type="text" class="form-control  @error('phone') is-invalid @enderror"
+                value="{{ old('phone', $user->phone) }}" autocomplete="username" name="phone">
+            @if ($errors->has('phone'))
+                <div class="text-danger mt-2">{{ $errors->first('phone') }}</div>
+            @endif
+        </div>
         <div class="d-flex align-items-center gap-3">
             <button type="submit" class="btn btn-primary">Save</button>
 

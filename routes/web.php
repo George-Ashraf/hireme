@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::resource('post', PostController::class)->except(['index', 'show']);
 });
+Route::get('downloadresume', [ProfileController::class, 'download'])->name('resume.download');
 
 // Public Post Routes (View Only)
 Route::resource('post', PostController::class)->only(['index', 'show']);
