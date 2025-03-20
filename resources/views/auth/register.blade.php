@@ -19,7 +19,7 @@
                     <div class="form-group mb-3">
                         <label for="email">Email</label>
                         <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}"
-                             autocomplete="username">
+                            autocomplete="username">
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
 
@@ -29,18 +29,12 @@
                         <input id="phone" type="text" class="form-control" name="phone" value="{{ old('phone') }}">
                         <x-input-error :messages="$errors->get('phone')" class="mt-2" />
                     </div>
-                    
-                    <div class="form-group mb-3">
-                        <label for="skills">Skills (Comma-separated)</label>
-                        <textarea class="form-control @error('skills') is-invalid @enderror" name="skills" rows="2">{{ old('skills') }}</textarea>
-                        @error('skills')
-                        <p class="text-danger">{{ $message }}</p>
-                    @enderror
-                    </div>
+
+
                     <!-- Role Selection -->
                     <div class="form-group mb-3">
                         <label for="role">Role</label>
-                        <select id="role" class="form-control" name="role"  onchange="toggleFields()">
+                        <select id="role" class="form-control" name="role" onchange="toggleFields()">
                             <option value="candidate" {{ old('role') == 'candidate' ? 'selected' : '' }}>Candidate
                             </option>
                             <option value="employer" {{ old('role') == 'employer' ? 'selected' : '' }}>Employer</option>
@@ -53,6 +47,15 @@
                         <label for="resume">Upload Resume (Optional)</label>
                         <input id="resume" type="file" class="form-control" name="resume" accept=".pdf,.doc,.docx">
                         <x-input-error :messages="$errors->get('resume')" class="mt-2" />
+                    </div>
+
+                    <div id="skills-container" class="form-group mb-3">
+                        <label for="skills">Skills (Comma-separated)</label>
+                        <textarea class="form-control @error('skills') is-invalid @enderror" name="skills"
+                            rows="2">{{ old('skills') }}</textarea>
+                        @error('skills')
+                        <p class="text-danger">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <!-- Company (Only for Employers) -->
@@ -79,7 +82,7 @@
                     <div class="form-group mb-3">
                         <label for="password_confirmation">Confirm Password</label>
                         <input id="password_confirmation" type="password" class="form-control"
-                            name="password_confirmation"  autocomplete="new-password">
+                            name="password_confirmation" autocomplete="new-password">
                         <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                     </div>
 
@@ -100,14 +103,24 @@
     function toggleFields() {
         var role = document.getElementById("role").value;
         var resumeContainer = document.getElementById("resume-container");
+        var skillsContainer = document.getElementById("skills-container");
         var companyContainer = document.getElementById("company-container");
 
         if (role === "candidate") {
             resumeContainer.style.display = "block"; // Show Resume
+            skillsContainer.style.display = "block"; // Show skills
             companyContainer.style.display = "none"; // Hide Company
+            resumeContainer.querySelector("input").setAttribute("required", "required");
+            skillsContainer.querySelector("input").setAttribute("required", "required");
+
+
         } else {
             resumeContainer.style.display = "none"; // Hide Resume
+            skillsContainer.style.display = "none"; // hide skills
             companyContainer.style.display = "block"; // Show Company
+            resumeContainer.querySelector("input").removeAttribute("required");
+            skillsContainer.querySelector("input").removeAttribute("required");
+
         }
     }
 

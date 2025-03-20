@@ -3,35 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use App\Models\Category;
-
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-
-
-
-
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use Illuminate\Http\Request;
 
-
-use function Pest\Laravel\post;
-
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-
-         $posts = Post::where('status','Published')->get()->groupBy('work_type');
-
-
-
-         return view('posts.index',compact('posts'));
-
+        $posts = Post::where('status', 'Published')->get()->groupBy('work_type');
+        return view('posts.index', compact('posts'));
     }
     public function search(Request $request)
     {
@@ -49,46 +35,36 @@ class PostController extends Controller
         return view('posts.search', compact('search_post', 'name'));
     }
 
-
-
     public function pending()
     {
-
         Gate::authorize('admin-only');
 
+        $pendingposts = Post::orderby('status', 'ASC')->get();
 
-
-         $pendingposts=Post::orderby('status','ASC')->get();
-
-
-
-         return view('posts.pending',compact('pendingposts'));
+        return view('posts.pending', compact('pendingposts'));
     }
 
-    public function  myposts()
+    public function myposts()
     {
         Gate::authorize('employer-only');
-        $myposts=Post::where('user_id',Auth::user()->id)->get();
-        return view('posts.myposts',compact('myposts'));
+        $myposts = Post::where('user_id', Auth::user()->id)->get();
+        return view('posts.myposts', compact('myposts'));
     }
+
     public function status($id)
     {
-
         Gate::authorize('admin-only');
         $post = Post::findOrFail($id);
         if ($post->status == 'Pending') {
-
             $post->status = 'Published';
             $post->save();
             return redirect()->back();
         } else {
             $post->status = 'Pending';
             $post->save();
-
             return redirect()->back();
         }
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -96,48 +72,40 @@ class PostController extends Controller
     public function create(Post $post)
     {
 
-        Gate::authorize('admin-or-employer');
 
         $categories = Category::all();
         return view('posts.create', compact('categories'));
-
-     }
+    }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePostRequest $request)
+    public function store(StorePostRequest $request, User $user)
     {
-        Gate::authorize('admin-or-employer');
        
+        Gate::authorize('store-post', $user);
+
         $imagename = null;
 
         if ($request->hasFile('image')) {
             $imagename = $request->file('image')->store('posts', 'public');
         }
 
-        // Prepare data for insertion
-
-
         $request_data = $request->validated();
         $request_data['image'] = $imagename;
         $request_data['status'] = 'Pending';
         $request_data['user_id'] = Auth::id();
-
-
-        // Create the Post
         Post::create($request_data);
 
-        // Redirect back with a success message
-        return redirect()->route('post.index')->with('success', 'Post created successfully.');
+        return redirect()->route('post.index');
     }
-     /**
+
+    /**
      * Display the specified resource.
      */
     public function show(Post $post)
     {
-        return view("posts.show",compact("post"));
-
+        return view("posts.show", compact("post"));
     }
 
     /**
@@ -147,21 +115,44 @@ class PostController extends Controller
     {
         Gate::authorize('update-post', $post);
 
+        $categories = Category::all();
+        return view('posts.edit', compact('post', 'categories'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdatePostRequest $request, Post $post)
     {
         Gate::authorize('update-post', $post);
+
+        $request_data = $request->validated();
+        // after update make the  status pending
+        $request_data['status'] = 'Pending';
+
+        if ($request->hasFile('image')) {
+            if ($post->image) {
+                Storage::disk('public')->delete($post->image);
+            }
+            $request_data['image'] = $request->file('image')->store('posts', 'public');
+        }
+
+        $post->update($request_data);
+
+        return redirect()->route('myposts.index', $post)->with('success', 'Post updated successfully.');
     }
+
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Post $post)
     {
-        Gate::authorize('delete-post', $post);
+        if ($post->image) {
+            Storage::disk('public')->delete($post->image);
+        }
+        $post->comments()->delete();
+        $post->application()->delete();
+        $post->delete();
+
+        return redirect()->route('post.index');
     }
 }

@@ -13,15 +13,16 @@
                     <!-- Email Address -->
                     <div class="form-group mb-3">
                         <label for="email">Email</label>
-                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror " name="email" value="{{ old('email') }}"
-                             autofocus autocomplete="username">
+                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror "
+                            name="email" value="{{ old('email') }}" autofocus autocomplete="username">
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
 
                     <!-- Password -->
                     <div class="form-group mb-3">
                         <label for="password">Password</label>
-                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password"
+                        <input id="password" type="password"
+                            class="form-control @error('password') is-invalid @enderror" name="password"
                             autocomplete="current-password">
                         <x-input-error :messages="$errors->get('password')" class="mt-2" />
                     </div>
@@ -34,9 +35,9 @@
 
                     <div class="d-flex justify-content-between align-items-center">
                         @if (Route::has('password.request'))
-                        <a class="text-sm text-primary" href="{{ route('password.request') }}">
-                            Forgot your password?
-                        </a>
+                            <a class="text-sm text-primary" href="{{ route('password.request') }}">
+                                Forgot your password?
+                            </a>
                         @endif
 
                         <button type="submit" class="btn btn-primary">

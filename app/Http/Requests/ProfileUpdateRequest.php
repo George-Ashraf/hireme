@@ -26,8 +26,8 @@ class ProfileUpdateRequest extends FormRequest
                 'max:255',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
-            'resume'=>'file|max:4096|mimes:pdf',
-            'image'=>'file|max:1024|mimes:jpg,jpeg,webp,gif,svg'
+            'resume' => 'file|max:4096|mimes:pdf',
+            'image' => 'file|max:1024|mimes:jpg,jpeg,webp,gif,svg,png'
 
 
 

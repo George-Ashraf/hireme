@@ -9,7 +9,7 @@
 .dropdown-menu[data-bs-popper] {
     top: 100%;
     left: -110px;
-    margin-top: .125rem;
+    margin-top: 0.125rem;
 }
 
 .back-to-top {
@@ -20,32 +20,33 @@
     z-index: 99;
 }
 
-
-.card{
+.card {
     height: auto;
 }
 .profilebx {
     --main-color: #000;
-    --submain-color: #78858F;
+    --submain-color: #78858f;
     --bg-color: #fff;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+        sans-serif;
     position: relative;
-
 
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 20px;
     background: var(--bg-color);
-
 }
 
 /* From Uiverse.io by andrew-demchenk0 */
 .profile {
     --main-color: #000;
-    --submain-color: #78858F;
+    --submain-color: #78858f;
     --bg-color: #fff;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+        sans-serif;
     position: relative;
 
     height: auto;
@@ -128,19 +129,17 @@
     color: var(--main-color);
 }
 
-
 .profile__cv {
-
     z-index: 1;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-
 }
 
 .profile__cv object {
     height: 100%;
+
 }
 
 .profile__cv .button {
@@ -151,7 +150,7 @@
     cursor: pointer;
     display: flex;
     align-items: center;
-    border: 1px solid #17795E;
+    border: 1px solid #17795e;
     background-color: var(--primary);
     overflow: hidden;
 }
@@ -173,7 +172,7 @@
     transform: translateX(109px);
     height: 100%;
     width: 39px;
-    background-color: #17795E;
+    background-color: #17795e;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -185,7 +184,7 @@
 }
 
 .profile__cv .button:hover {
-    background: #17795E;
+    background: #17795e;
 }
 
 .profile__cv .button:hover .button__text {
@@ -227,20 +226,21 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background: var(--gradient-2, linear-gradient(90deg, #2AF598 0%, #009EFD 100%));
+    background: var(
+        --gradient-2,
+        linear-gradient(90deg, #2af598 0%, #009efd 100%)
+    );
     border: 0;
     display: inline-block;
-    transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+    transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
 }
-
 /*hover effect*/
 .searchButton:hover {
     color: #fff;
-    background-color: #1A1A1A;
+    background-color: #1a1a1a;
     box-shadow: rgba(0, 0, 0, 0.5) 0 10px 20px;
     transform: translateY(-3px);
 }
-
 /*button pressing effect*/
 .searchButton:active {
     box-shadow: none;
@@ -255,7 +255,6 @@
     font-size: 15px;
     padding: 24px 46px 24px 26px;
 }
-
 /*** Spinner ***/
 #spinner {
     opacity: 0;
@@ -341,7 +340,6 @@
 }
 
 @media (max-width: 991.98px) {
-
     .navbar-dark .navbar-nav .nav-link,
     .navbar-light .navbar-nav .nav-link {
         margin-right: 0;
@@ -476,37 +474,47 @@
     background-size: cover;
 }
 
-.breadcrumb-item+.breadcrumb-item::before {
+.breadcrumb-item + .breadcrumb-item::before {
     color: var(--light);
 }
 
 /*** About ***/
 .about-bg {
-    background-image: -webkit-repeating-radial-gradient(center center,
-            rgba(0, 0, 0, 0.2),
-            rgba(0, 0, 0, 0.2) 1px,
-            transparent 1px,
-            transparent 100%);
-    background-image: -moz-repeating-radial-gradient(center center,
-            rgba(0, 0, 0, 0.2),
-            rgba(0, 0, 0, 0.2) 1px,
-            transparent 1px,
-            transparent 100%);
-    background-image: -ms-repeating-radial-gradient(center center,
-            rgba(0, 0, 0, 0.2),
-            rgba(0, 0, 0, 0.2) 1px,
-            transparent 1px,
-            transparent 100%);
-    background-image: -o-repeating-radial-gradient(center center,
-            rgba(0, 0, 0, 0.2),
-            rgba(0, 0, 0, 0.2) 1px,
-            transparent 1px,
-            transparent 100%);
-    background-image: repeating-radial-gradient(center center,
-            rgba(0, 0, 0, 0.2),
-            rgba(0, 0, 0, 0.2) 1px,
-            transparent 1px,
-            transparent 100%);
+    background-image: -webkit-repeating-radial-gradient(
+        center center,
+        rgba(0, 0, 0, 0.2),
+        rgba(0, 0, 0, 0.2) 1px,
+        transparent 1px,
+        transparent 100%
+    );
+    background-image: -moz-repeating-radial-gradient(
+        center center,
+        rgba(0, 0, 0, 0.2),
+        rgba(0, 0, 0, 0.2) 1px,
+        transparent 1px,
+        transparent 100%
+    );
+    background-image: -ms-repeating-radial-gradient(
+        center center,
+        rgba(0, 0, 0, 0.2),
+        rgba(0, 0, 0, 0.2) 1px,
+        transparent 1px,
+        transparent 100%
+    );
+    background-image: -o-repeating-radial-gradient(
+        center center,
+        rgba(0, 0, 0, 0.2),
+        rgba(0, 0, 0, 0.2) 1px,
+        transparent 1px,
+        transparent 100%
+    );
+    background-image: repeating-radial-gradient(
+        center center,
+        rgba(0, 0, 0, 0.2),
+        rgba(0, 0, 0, 0.2) 1px,
+        transparent 1px,
+        transparent 100%
+    );
     background-size: 5px 5px;
 }
 
@@ -644,4 +652,28 @@
     margin-right: 0;
     padding-right: 0;
     border-right: none;
+}
+.hover-shadow:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    transform: translateY(-2px);
+}
+
+.transition-all {
+    transition: all 0.3s ease;
+}
+
+.hover-scale:hover {
+    transform: scale(1.02);
+}
+
+.hover-primary:hover {
+    color: var(--bs-primary) !important;
+}
+
+.job-meta {
+    font-size: 0.9rem;
+}
+
+.lazy-load {
+    transition: opacity 0.3s;
 }

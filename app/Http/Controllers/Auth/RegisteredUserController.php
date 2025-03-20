@@ -37,7 +37,7 @@ class RegisteredUserController extends Controller
             'company' => ['nullable', 'string', 'max:255'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'resume' => 'file|max:4096|mimes:pdf',
-            'image' => 'file|max:1024|mimes:jpg,jpeg,webp,gif,svg',
+            'image' => 'file|max:1024|mimes:jpg,jpeg,webp,gif,svg,png',
             'skills' => ['nullable', 'string', 'max:255'],
         ]);
 

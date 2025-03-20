@@ -1,61 +1,75 @@
 <x-app-layout>
-    @foreach ($myposts as $post)
-        <div class="job-item p-4 mb-4">
-            <div class="row g-4">
-                <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                    <img class="flex-shrink-0 img-fluid border rounded"
-                        src="{{ asset(' storage/public' . '/' . $post->image) }}" alt=""
-                        style="width: 80px; height: 80px;">
-                    <div class="text-start ps-4">
-                        <h5 class="mb-3">
-                            {{ $post->job_title }}
+    <div class="tab-content mt-4 px-4">
+        <div class="tab-pane fade show active p-0">
+            @foreach ($myposts as $post)
+                <div class="job-item p-4 mb-4 border shadow-sm bg-white" style="border-radius: 10px;">
+                    <div class="row align-items-center p-4">
+                        <!-- Job Image & Details -->
+                        <div class="col-md-9 d-flex align-items-center gap-3">
+                            <img class="img-fluid border rounded" src="{{ asset('storage/' . $post->image) }}"
+                                alt="Job Image" style="width: 80px; height: 80px; object-fit: cover;">
+                            <div class="flex-grow-1">
+                                <h5 class="fw-bold text-dark mb-2 text-start fs-4">{{ $post->job_title }}</h5>
 
-
-                        </h5>
-                        <span>
-                            @if ($post->status=='Pending')
-                            <div class="alert alert-warning text-center">
-                                <p >wait admin to approve your post</p>
-                            </div>
-
+                                @if ($post->status == 'Pending')
+                                    <div class="alert alert-warning text-center py-1 mb-2">
+                                        <p class="mb-0">Waiting for admin approval</p>
+                                    </div>
                                 @else
-                                <div class="alert alert-success text-center">
-                                    <p> admin  approve your post</p>
+                                    <div class="alert alert-success text-center py-1 mb-2">
+                                        <p class="mb-0">Post approved by admin</p>
+                                    </div>
+                                @endif
+
+                                <div class="d-flex flex-wrap gap-3 text-muted small">
+                                    <span class="d-flex align-items-center">
+                                        <i class="fa fa-map-marker-alt text-primary me-2"></i>{{ $post->location }}
+                                    </span>
+                                    <span class="d-flex align-items-center">
+                                        <i class="fa-solid fa-globe text-primary me-2"></i>{{ $post->work_type }}
+                                    </span>
+                                    <span class="d-flex align-items-center">
+                                        <i class="far fa-money-bill-alt text-primary me-2"></i>${{ $post->salary }}
+                                    </span>
+                                    <span class="d-flex align-items-center">
+                                        <i class="far fa-calendar-alt text-primary me-2"></i>
+                                        <span class="fw-semibold text-dark">Deadline:</span>
+                                        <span class="text-danger ms-1 fw-bold">
+                                            {{ \Carbon\Carbon::parse($post->closed_date)->format('F j, Y') }}
+                                        </span>
+                                    </span>
                                 </div>
+                            </div>
+                        </div>
 
+                        <!-- Actions Section -->
+                        <div class="col-md-3 text-md-end mt-3">
+                            <a class="btn btn-primary px-4 py-2 shadow-sm fw-semibold"
+                                href="{{ route('post.show', $post->id) }}">Show Details</a>
 
-                            @endif
-                        </span>
-                        <span class="text-truncate me-3"><i
-                                class="fa fa-map-marker-alt text-primary me-2"></i>{{ $post->location }}</span>
-                        <span class="text-truncate me-3"><i
-                                class="far fa-clock text-primary me-2"></i>{{ $post->work_type }}</span>
-                        <span class="text-truncate me-0"><i
-                                class="far fa-money-bill-alt text-primary me-2"></i>${{ $post->salary }}</span>
+                            @can('delete-post', $post)
+                                <div class="dropdown d-inline ms-2">
+                                    <button class="btn btn-outline-success btn-sm dropdown-toggle" type="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                        ⋮
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item" href="{{ route('post.edit', $post->id) }}">Edit</a>
+                                        </li>
+                                        <li>
+                                            <form action="{{ route('post.destroy', $post->id) }}" method="post">
+                                                @csrf
+                                                @method('delete')
+                                                <button type="submit" class="dropdown-item">Delete</button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            @endcan
+                        </div>
                     </div>
                 </div>
-                <div
-                    class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
-                    <h6> @can('delete-post', $post)
-                            @auth <a href="{{ route('post.destroy', $post->id) }}"> <i
-                                        class="fa-solid fa-trash text-danger"></i></a> <a
-                                    href="{{ route('post.edit', $post->id) }}"> <i
-                                        class="fa-solid fa-pen-nib text-secondary"></i></a>
-                            @endauth
-                        @endcanany
-                    </h6>
-                    <div class="d-flex justify-content-center align-items-center flex-column mb-3">
-
-                            <a class="btn btn-primary" href="{{ route('post.show', $post->id) }}">Show details</a>
-
-                    </div>
-                    <small class="text-truncate"><i class="far fa-calendar-alt text-primary me-2"></i>Date Line:
-                        {{ $post->closed_date }}</small>
-                </div>
-
-            </div>
+            @endforeach
         </div>
-    @endforeach
-
-
+    </div>
 </x-app-layout>
