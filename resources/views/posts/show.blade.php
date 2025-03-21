@@ -219,16 +219,18 @@
                                                     </div>
                                                 @endcan
                                                 @can('admin-only')
-                                                    <form
-                                                        action="{{ route('comment.destroy', ['post' => $post, 'comment' => $comment]) }}"
-                                                        method="POST" class="border position-absolute end-0">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn text-danger"
-                                                            onclick="return confirm('Are you sure you want to delete this your?');">
-                                                            Delete
-                                                        </button>
-                                                    </form>
+                                                    @if (auth()->id() != $comment->user_id)
+                                                        <form
+                                                            action="{{ route('comment.destroy', ['post' => $post, 'comment' => $comment]) }}"
+                                                            method="POST" class="border position-absolute end-0">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn text-danger"
+                                                                onclick="return confirm('Are you sure you want to delete this your?');">
+                                                                Delete
+                                                            </button>
+                                                        </form>
+                                                    @endif
                                                 @endcan
 
 
