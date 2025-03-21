@@ -11,7 +11,10 @@
     left: -110px;
     margin-top: 0.125rem;
 }
-
+.catgory-drop {
+    right: 0px;
+    margin-inline-end: 14px;
+}
 .back-to-top {
     position: fixed;
     display: none;
@@ -207,13 +210,14 @@
 
 .searchBox {
     display: flex;
-    max-width: 230px;
+    max-width: 50%;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    background: #2f3640;
+    background: var(--light);
     border-radius: 50px;
     position: relative;
+    border: 2px solid #00b07579;
 }
 
 /* search */
