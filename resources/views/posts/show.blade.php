@@ -176,9 +176,9 @@
                                                 @endif
 
                                                 <div>
-                                                    <p class="mb-0">
+                                                    <p class="mb-0 text-dark ">
                                                         {{ $comment->user ? $comment->user->name : 'null' }}</p>
-                                                    <p class="text-dark my-0 py-0" style="font-size:10px">
+                                                    <p class="text-dark  my-0 py-0" style="font-size:10px">
                                                         {{ $comment->user ? $comment->user->role : 'null' }}
                                                     </p>
 
@@ -233,7 +233,7 @@
 
 
                                             </div>
-                                            <p class=" ms-2 mx-auto  my-2">{{ $comment->body }}</p>
+                                            <p class=" ms-2 mx-auto  my-2 text-dark">{{ $comment->body }}</p>
 
 
                                         </div>
