@@ -66,7 +66,7 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
-    
+
     public function download()
     {
         $user = User::find(Auth::id());
@@ -86,7 +86,8 @@ class ProfileController extends Controller
         ]);
 
         $user = $request->user();
-
+    $user->application()->delete();
+    $user->comment()->delete();
         Auth::logout();
 
         $user->delete();

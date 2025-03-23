@@ -9,7 +9,7 @@
                             <div class="col-md-4">
                                 <div class="card p-2" style="width: 19rem;">
                                     <img src="{{ asset('storage/' . $post->image) }}" class="card-img-top"
-                                        alt="job Image" style="width: 100%; height: 180px; object-fit: cover;">
+                                        alt="job Image" style="width: 100%; height: 180px; object-fit: contain;">
                                     <div class="card-body text-center">
                                         <a href="{{ route('post.show', $post->id) }}">
                                             <h5 class="card-title fs-5" style="min-height:40px">{{ $post->job_title }}
