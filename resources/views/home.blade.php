@@ -198,58 +198,31 @@
         <div class="container">
             <h1 class="text-center mb-5">Our Clients Say!!!</h1>
             <div class="owl-carousel testimonial-carousel">
+                @foreach ($messages as $message)
                 <div class="testimonial-item bg-light rounded p-4">
                     <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
-                    <p>Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore
-                        diam</p>
+                    <p>{{$message->message}}</p>
                     <div class="d-flex align-items-center">
-                        <img class="img-fluid flex-shrink-0 rounded" src="img/testimonial-2.jpg"
-                            style="width: 50px; height: 50px;" alt="Client Image">
+                        @php
+                        $colors = [
+                            '#FF5733',
+                            '#33A1FF',
+                            '#33FF57',
+                            '#FFB733',
+                            '#8D33FF',
+                        ];
+                    @endphp
+                    <div class="rounded-circle border d-flex align-items-center justify-content-center text-white"
+                        style="height: 80px; width: 80px; font-size: 50px; font-weight: bold; background-color: {{ $colors[$loop->index % count($colors)] }};">
+                        {{ Str::upper(Str::substr($message->name, 0, 1)) }}
+                    </div>
                         <div class="ps-3">
-                            <h5 class="mb-1">Client Name</h5>
-                            <small>Profession</small>
+                            <h5 class="mb-1">{{$message->name}}</h5>
+                            <small>{{$message->profession}}</small>
                         </div>
                     </div>
                 </div>
-                <div class="testimonial-item bg-light rounded p-4">
-                    <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
-                    <p>Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore
-                        diam</p>
-                    <div class="d-flex align-items-center">
-                        <img class="img-fluid flex-shrink-0 rounded" src="img/testimonial-3.jpg"
-                            style="width: 50px; height: 50px;" alt="Client Image">
-                        <div class="ps-3">
-                            <h5 class="mb-1">Client Name</h5>
-                            <small>Profession</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-item bg-light rounded p-4">
-                    <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
-                    <p>Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore
-                        diam</p>
-                    <div class="d-flex align-items-center">
-                        <img class="img-fluid flex-shrink-0 rounded" src="img/testimonial-3.jpg"
-                            style="width: 50px; height: 50px;" alt="Client Image">
-                        <div class="ps-3">
-                            <h5 class="mb-1">Client Name</h5>
-                            <small>Profession</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="testimonial-item bg-light rounded p-4">
-                    <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
-                    <p>Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore
-                        diam</p>
-                    <div class="d-flex align-items-center">
-                        <img class="img-fluid flex-shrink-0 rounded" src="img/testimonial-4.jpg"
-                            style="width: 50px; height: 50px;" alt="Client Image">
-                        <div class="ps-3">
-                            <h5 class="mb-1">Client Name</h5>
-                            <small>Profession</small>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>

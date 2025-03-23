@@ -82,7 +82,7 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request, User $user)
     {
-       
+
         Gate::authorize('store-post', $user);
 
         $imagename = null;

@@ -6,12 +6,15 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\MessageController;
+use App\Models\Message;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__ . '/auth.php';
 
 // Display the home page with all active job listings
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('about-us', [HomeController::class, 'about'])->name('about');
 
 // Profile Management Routes
 Route::middleware('auth')->group(function () {
@@ -71,3 +74,9 @@ Route::get('editcategory/{id}', [CategoryController::class, 'edit'])->name('cate
 Route::post('updatecategory/{id}', [CategoryController::class, 'update'])->name('category.update');
 // Delete category
 Route::get('deletecategory/{id}', [CategoryController::class, 'destroy'])->name('category.delete');
+
+
+
+Route::get('contact-message', [MessageController::class, 'create'])->name('contact.create');
+Route::post('contact', [MessageController::class, 'store'])->name('contact.store');
+
