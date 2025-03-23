@@ -65,8 +65,8 @@
 
             <div class="row g-4">
                 @forelse ($categories as $category)
-                    <div class="col-lg-3 col-sm-6 wow fadeInUp position-relative" data-wow-delay="0.1s">
-                        <div class="cat-item rounded p-4">
+                    <div class="col-lg-3 col-sm-6 wow fadeInUp position-relative " data-wow-delay="0.1s">
+                        <div class="cat-item rounded p-4 ">
                             <a href="{{ route('category.show', $category->id) }}">
                                 <i class="text-primary mb-4 fa fa-3x {{ $category->icon }}"></i>
                             </a>
@@ -75,8 +75,9 @@
                                 @auth
                                     @can('admin-only')
                                         <div class="dropdown  catgory-drop d-inline position-absolute  top-0 ">
-                                            <button class="btn btn-outline-primary  dropdown-toggle" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                            <button class="btn   dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                                aria-expanded="false">
+                                                :
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end">
                                                 <li>
@@ -199,29 +200,23 @@
             <h1 class="text-center mb-5">Our Clients Say!!!</h1>
             <div class="owl-carousel testimonial-carousel">
                 @foreach ($messages as $message)
-                <div class="testimonial-item bg-light rounded p-4">
-                    <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
-                    <p>{{$message->message}}</p>
-                    <div class="d-flex align-items-center">
-                        @php
-                        $colors = [
-                            '#FF5733',
-                            '#33A1FF',
-                            '#33FF57',
-                            '#FFB733',
-                            '#8D33FF',
-                        ];
-                    @endphp
-                    <div class="rounded-circle border d-flex align-items-center justify-content-center text-white"
-                        style="height: 80px; width: 80px; font-size: 50px; font-weight: bold; background-color: {{ $colors[$loop->index % count($colors)] }};">
-                        {{ Str::upper(Str::substr($message->name, 0, 1)) }}
-                    </div>
-                        <div class="ps-3">
-                            <h5 class="mb-1">{{$message->name}}</h5>
-                            <small>{{$message->profession}}</small>
+                    <div class="testimonial-item bg-light rounded p-4">
+                        <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+                        <p>{{ $message->message }}</p>
+                        <div class="d-flex align-items-center">
+                            @php
+                                $colors = ['#FF5733', '#33A1FF', '#33FF57', '#FFB733', '#8D33FF'];
+                            @endphp
+                            <div class="rounded-circle border d-flex align-items-center justify-content-center text-white"
+                                style="height: 80px; width: 80px; font-size: 50px; font-weight: bold; background-color: {{ $colors[$loop->index % count($colors)] }};">
+                                {{ Str::upper(Str::substr($message->name, 0, 1)) }}
+                            </div>
+                            <div class="ps-3">
+                                <h5 class="mb-1">{{ $message->name }}</h5>
+                                <small>{{ $message->profession }}</small>
+                            </div>
                         </div>
                     </div>
-                </div>
                 @endforeach
             </div>
         </div>

@@ -11,6 +11,7 @@
     left: -110px;
     margin-top: 0.125rem;
 }
+
 .catgory-drop {
     right: 0px;
     margin-inline-end: 14px;
@@ -679,4 +680,7 @@
 
 .lazy-load {
     transition: opacity 0.3s;
+}
+.btn:focus {
+    box-shadow: none !important;
 }

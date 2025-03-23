@@ -1,16 +1,18 @@
 <x-app-layout>
-    <div class="container-xxl py-5">
+    <div class="container-xxl py-5 bg-white ">
         <div class="container">
             <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Explore Applications</h1>
-            <div class="container-xxl py-5">
-                <div class="container">
-                    <div class="row g-4">
+            <div class="container-fuild  ">
+                <div class="container  ">
+                    <div class="row g-4 py-3 p-2  ">
                         @foreach ($posts as $post)
-                            <div class="col-md-4">
-                                <div class="card p-2" style="width: 19rem;">
-                                    <img src="{{ asset('storage/' . $post->image) }}" class="card-img-top"
-                                        alt="job Image" style="width: 100%; height: 180px; object-fit: cover;">
-                                    <div class="card-body text-center">
+                            <div class="col-md-12 ">
+                                <div class=" p-2  d-flex bg-white shadow rounded">
+                                    <div class="col-4">
+                                        <img src="{{ asset('storage/' . $post->image) }}" class="card-img-top"
+                                            alt="job Image" style="width: 100%; height: 150px; object-fit: contain;">
+                                    </div>
+                                    <div class="card-body  col-7">
                                         <a href="{{ route('post.show', $post->id) }}">
                                             <h5 class="card-title fs-5" style="min-height:40px">{{ $post->job_title }}
                                             </h5>

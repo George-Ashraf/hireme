@@ -219,18 +219,16 @@
                                                     </div>
                                                 @endcan
                                                 @can('admin-only')
-                                                    @if (auth()->id() != $comment->user_id)
-                                                        <form
-                                                            action="{{ route('comment.destroy', ['post' => $post, 'comment' => $comment]) }}"
-                                                            method="POST" class="border position-absolute end-0">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn text-danger"
-                                                                onclick="return confirm('Are you sure you want to delete this your?');">
-                                                                Delete
-                                                            </button>
-                                                        </form>
-                                                    @endif
+                                                    <form
+                                                        action="{{ route('comment.destroy', ['post' => $post, 'comment' => $comment]) }}"
+                                                        method="POST" class="border position-absolute end-0">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn text-danger"
+                                                            onclick="return confirm('Are you sure you want to delete this your?');">
+                                                            Delete
+                                                        </button>
+                                                    </form>
                                                 @endcan
 
 
@@ -242,19 +240,21 @@
                                     @endforeach
                                 </div>
                             @endif
-                            <div class="col-12">
-                                <form action="{{ route('comment.store', ['post' => $post]) }}" method="POST">
-                                    @csrf
-                                    <div class="mb-3">
+                            @can('candidate-or-employer')
+                                <div class="col-12">
+                                    <form action="{{ route('comment.store', ['post' => $post]) }}" method="POST">
+                                        @csrf
+                                        <div class="mb-3">
 
-                                        <textarea class="form-control" id="comment" name="body" rows="3"
-                                            placeholder="Write your comment here..." required></textarea>
-                                    </div>
+                                            <textarea class="form-control" id="comment" name="body" rows="3"
+                                                placeholder="Write your comment here..." required></textarea>
+                                        </div>
 
-                                    <button type="submit" class="btn btn-primary">Add Your Comment</button>
-                                </form>
+                                        <button type="submit" class="btn btn-primary">Add Your Comment</button>
+                                    </form>
 
-                            </div>
+                                </div>
+                            @endcan
                         </div>
                     @endif
                 </div>

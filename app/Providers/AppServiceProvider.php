@@ -64,5 +64,9 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('admin-or-employer', function () {
             return (Auth::check() && Auth::user()->role === 'admin') || (Auth::check() && Auth::user()->role === 'employer');
         });
+    
+        Gate::define('candidate-or-employer', function () {
+            return (Auth::check() && Auth::user()->role === 'candidate') || (Auth::check() && Auth::user()->role === 'employer');
+        });
     }
 }
