@@ -58,48 +58,48 @@
             <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Explore By Category</h1>
 
             @can('admin-only')
-                @auth
-                    <a href="{{ route('category.create') }}" class="btn btn-primary mb-3">Add Category</a>
-                @endauth
+            @auth
+            <a href="{{ route('category.create') }}" class="btn btn-primary mb-3">Add Category</a>
+            @endauth
             @endcan
 
             <div class="row g-4">
                 @forelse ($categories as $category)
-                    <div class="col-lg-3 col-sm-6 wow fadeInUp position-relative " data-wow-delay="0.1s">
-                        <div class="cat-item rounded p-4 ">
-                            <a href="{{ route('category.show', $category->id) }}">
-                                <i class="text-primary mb-4 fa fa-3x {{ $category->icon }}"></i>
-                            </a>
-                            <h6 class="mb-3">
-                                <a href="{{ route('category.show', $category->id) }}"> {{ $category->name }}</a>
-                                @auth
-                                    @can('admin-only')
-                                        <div class="dropdown  catgory-drop d-inline position-absolute  top-0 ">
-                                            <button class="btn   dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                                                aria-expanded="false">
-                                                :
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-end">
-                                                <li>
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('category.edit', $category->id) }}">Edit</a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('category.delete', $category->id) }}">Delete</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    @endcan
-                                @endauth
-                            </h6>
-                            <!-- <p class="mb-0">{{ $category->posts_count }} Job</p> -->
-                        </div>
+                <div class="col-lg-3 col-sm-6 wow fadeInUp position-relative " data-wow-delay="0.1s">
+                    <div class="cat-item rounded p-4 ">
+                        <a href="{{ route('category.show', $category->id) }}">
+                            <i class="text-primary mb-4 fa fa-3x {{ $category->icon }}"></i>
+                        </a>
+                        <h6 class="mb-3">
+                            <a href="{{ route('category.show', $category->id) }}"> {{ $category->name }}</a>
+                            @auth
+                            @can('admin-only')
+                            <div class="dropdown  catgory-drop d-inline position-absolute  top-0 ">
+                                <button class="btn   dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    :
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item"
+                                            href="{{ route('category.edit', $category->id) }}">Edit</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item"
+                                            href="{{ route('category.delete', $category->id) }}">Delete</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            @endcan
+                            @endauth
+                        </h6>
+                        <!-- <p class="mb-0">{{ $category->posts_count }} Job</p> -->
                     </div>
+                </div>
                 @empty
-                    <div class="alert alert-danger text-center">
-                        <p>No categories available</p>
-                    </div>
+                <div class="alert alert-danger text-center">
+                    <p>No categories available</p>
+                </div>
                 @endforelse
             </div>
         </div>
@@ -165,22 +165,22 @@
 
                     <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mt-4 ">
                         @foreach ($posts as $workType => $jobs)
-                            <li class="nav-item">
-                                <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 {{ $loop->first ? 'active' : '' }}"
-                                    data-bs-toggle="pill" href="#{{ Str::slug($workType) }}">
-                                    <h6 class="mt-n1 mb-0">{{ $workType }}</h6>
-                                </a>
-                            </li>
+                        <li class="nav-item">
+                            <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 {{ $loop->first ? 'active' : '' }}"
+                                data-bs-toggle="pill" href="#{{ Str::slug($workType) }}">
+                                <h6 class="mt-n1 mb-0">{{ $workType }}</h6>
+                            </a>
+                        </li>
                         @endforeach
 
                     </ul>
                     @auth
-                        @if (auth()->user()->role === 'employer')
-                            <div class="d-flex justify-content-end">
-                                <a href="{{ route('post.create') }}" class="btn btn-secondary mb-4 py-2 px-4">Add Job
-                                    Post</a>
-                            </div>
-                        @endif
+                    @if (auth()->user()->role === 'employer')
+                    <div class="d-flex justify-content-end">
+                        <a href="{{ route('post.create') }}" class="btn btn-secondary mb-4 py-2 px-4">Add Job
+                            Post</a>
+                    </div>
+                    @endif
 
 
                     @endauth
@@ -200,23 +200,23 @@
             <h1 class="text-center mb-5">Our Clients Say!!!</h1>
             <div class="owl-carousel testimonial-carousel">
                 @foreach ($messages as $message)
-                    <div class="testimonial-item bg-light rounded p-4">
-                        <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
-                        <p>{{ $message->message }}</p>
-                        <div class="d-flex align-items-center">
-                            @php
-                                $colors = ['#FF5733', '#33A1FF', '#33FF57', '#FFB733', '#8D33FF'];
-                            @endphp
-                            <div class="rounded-circle border d-flex align-items-center justify-content-center text-white"
-                                style="height: 80px; width: 80px; font-size: 50px; font-weight: bold; background-color: {{ $colors[$loop->index % count($colors)] }};">
-                                {{ Str::upper(Str::substr($message->name, 0, 1)) }}
-                            </div>
-                            <div class="ps-3">
-                                <h5 class="mb-1">{{ $message->name }}</h5>
-                                <small>{{ $message->profession }}</small>
-                            </div>
+                <div class="testimonial-item bg-light rounded p-4">
+                    <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
+                    <p>{{ $message->message }}</p>
+                    <div class="d-flex align-items-center">
+                        @php
+                        $colors = ['#FF5733', '#33A1FF', '#33FF57', '#FFB733', '#8D33FF'];
+                        @endphp
+                        <div class="rounded-circle border d-flex align-items-center justify-content-center text-white"
+                            style="height: 80px; width: 80px; font-size: 50px; font-weight: bold; background-color: {{ $colors[$loop->index % count($colors)] }};">
+                            {{ Str::upper(Str::substr($message->name, 0, 1)) }}
+                        </div>
+                        <div class="ps-3">
+                            <h5 class="mb-1">{{ $message->name }}</h5>
+                            <small>{{ $message->profession }}</small>
                         </div>
                     </div>
+                </div>
                 @endforeach
             </div>
         </div>

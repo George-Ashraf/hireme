@@ -66,90 +66,90 @@
                         </span>
                     </p>
                     @if (auth()->user()->role === 'candidate')
-                        <a href="{{ asset('storage/' . $application->user->resume) }}"
-                            class="text-secondary my-2 d-block text-decoration-underline " target="_blank">
-                            <i class="fas fa-file-alt me-2"></i> View Resume
-                        </a>
-                        <div class="d-flex gap-2 ">
-                            <a href="{{ route('profile.edit', $application->id) }}"
-                                class="btn btn-secondary px-4 ">Update Profille</a>
-                            <form action="{{ route('application.destroy', $application) }}" method="post">
-                                @csrf
-                                @method('delete')
-                                <button type="submit" class="fw-lighter  btn btn-primary  px-4 ">Withdraw
-                                    Application </button>
-                            </form>
+                    <a href="{{ asset('storage/' . $application->user->resume) }}"
+                        class="text-secondary my-2 d-block text-decoration-underline " target="_blank">
+                        <i class="fas fa-file-alt me-2"></i> View Resume
+                    </a>
+                    <div class="d-flex gap-2 ">
+                        <a href="{{ route('profile.edit', $application->id) }}" class="btn btn-secondary px-4 ">Update
+                            Profille</a>
+                        <form action="{{ route('application.destroy', $application) }}" method="post">
+                            @csrf
+                            @method('delete')
+                            <button type="submit" class="fw-lighter  btn btn-primary  px-4 ">Withdraw
+                                Application </button>
+                        </form>
 
-                        </div>
+                    </div>
                     @elseif(auth()->user()->role === 'employer')
-                        <!-- Employer's Application Review Section -->
-                        <div class="mt-4 card p-4 shadow-sm border-0 rounded-3 bg-light">
-                            <div class="d-flex align-items-center">
+                    <!-- Employer's Application Review Section -->
+                    <div class="mt-4 card p-4 shadow-lg border-0 rounded-4 bg-white">
+                        <div class="row align-items-center">
+                            <!-- Left Side: Image, Name, Contact Info -->
+                            <div class="col-md-4 text-center">
                                 <img src="{{ asset('storage/' . $application->user->image) }}"
-                                    class="img-fluid rounded-circle me-3 shadow-sm"
+                                    class="img-fluid  rounded-circle shadow-sm mb-2"
                                     alt="{{ $application->user->name }}"
-                                    style="width: 80px; height: 80px; object-fit: cover; border: 3px solid #fff;">
-                                <div class="col">
-                                    <h5 class="fw-bold text-dark mb-1">{{ $application->user->name }}</h5>
-                                    <div class="small text-muted">
-                                        <i class="bi bi-telephone me-2"></i>{{ $application->user->phone }}<br>
-                                        <i class="bi bi-envelope me-2"></i>{{ $application->user->email }}
-                                    </div>
+                                    style="width: 125px; height: 125px; object-fit: cover; border: 3px solid #fff;">
+
+                                <h5 class="fw-bold text-dark mt-2">{{ $application->user->name }}</h5>
+                                <div class="small text-muted">
+                                    <i class="bi bi-telephone me-2"></i>{{ $application->user->phone }}<br>
+                                    <i class="bi bi-envelope me-2"></i>{{ $application->user->email }}
                                 </div>
                             </div>
 
-                            <div class="mt-3">
-
-                                <div class="d-flex flex-column justify-content-center align-items-center">
-                                    <object data="{{ asset('storage/' . $application->user->resume) }}"
-                                        type="application/pdf" width="500" height="300"></object>
-                                </div>
-
-
+                            <!-- Right Side: Resume Preview -->
+                            <div class="col-md-8 d-flex   p-3 flex-column align-items-center">
+                                <object data="{{ asset('storage/' . $application->user->resume) }}"
+                                    type="application/pdf" width="100%" height="300"></object>
 
                                 <a href="{{ asset('storage/' . $application->user->resume) }}"
-                                    class="btn btn-primary btn-sm w-100 d-flex align-items-center justify-content-center shadow-sm"
-                                    target="_blank" style="border-radius: 8px;">
-                                    <i class="fas fa-file-alt me-2"></i> View Resume
+                                    class="btn btn-primary btn-sm mt-2 w-25 shadow-sm" target="_blank"
+                                    style="border-radius: 8px;">
+                                    <i class="fas fa-file-alt me-2"></i> Resume
                                 </a>
                             </div>
+                        </div>
 
-                            <div class="row mt-3">
-                                <div class="col-4">
-                                    <form action="{{ route('application.status', $application) }}" method="post">
-                                        @csrf
-                                        <input type="hidden" name="status" value="Accepted">
-                                        <button type="submit" class="btn btn-success btn-sm w-100 shadow-sm"
-                                            style="border-radius: 8px;"
-                                            @if ($application->status === 'Accepted') disabled @endif>
-                                            <i class="fas fa-check me-1"></i> Accept
-                                        </button>
-                                    </form>
-                                </div>
-                                <div class="col-4">
-                                    <form action="{{ route('application.status', $application) }}" method="post">
-                                        @csrf
-                                        <input type="hidden" name="status" value="Rejected">
-                                        <button type="submit" class="btn btn-danger btn-sm w-100 shadow-sm"
-                                            style="border-radius: 8px;"
-                                            @if ($application->status === 'Rejected') disabled @endif>
-                                            <i class="fas fa-times me-1"></i> Reject
-                                        </button>
-                                    </form>
-                                </div>
-                                <div class="col-4">
-                                    <form action="{{ route('application.status', $application) }}" method="post">
-                                        @csrf
-                                        <input type="hidden" name="status" value="Pending">
-                                        <button type="submit" class="btn btn-secondary btn-sm w-100 shadow-sm"
-                                            style="border-radius: 8px;"
-                                            @if ($application->status === 'Pending') disabled @endif>
-                                            <i class="fas fa-clock me-1"></i> Pending
-                                        </button>
-                                    </form>
-                                </div>
+                        <!-- Action Buttons -->
+                        <div class="row mt-3">
+                            <div class="col-4">
+                                <form action="{{ route('application.status', $application) }}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="status" value="Accepted">
+                                    <button type="submit" class="btn btn-success btn-sm w-100 shadow-sm"
+                                        style="border-radius: 8px;" @if ($application->status === 'Accepted') disabled
+                                        @endif>
+                                        <i class="fas fa-check me-1"></i> Accept
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="col-4">
+                                <form action="{{ route('application.status', $application) }}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="status" value="Rejected">
+                                    <button type="submit" class="btn btn-danger btn-sm w-100 shadow-sm"
+                                        style="border-radius: 8px;" @if ($application->status === 'Rejected') disabled
+                                        @endif>
+                                        <i class="fas fa-times me-1"></i> Reject
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="col-4">
+                                <form action="{{ route('application.status', $application) }}" method="post">
+                                    @csrf
+                                    <input type="hidden" name="status" value="Pending">
+                                    <button type="submit" class="btn btn-secondary btn-sm w-100 shadow-sm"
+                                        style="border-radius: 8px;" @if ($application->status === 'Pending') disabled
+                                        @endif>
+                                        <i class="fas fa-clock me-1"></i> Pending
+                                    </button>
+                                </form>
                             </div>
                         </div>
+                    </div>
+
                     @endif
                 </div>
             </div>
