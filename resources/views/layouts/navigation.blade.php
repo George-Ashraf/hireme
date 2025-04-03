@@ -2,6 +2,13 @@
     <a href="{{ route('home') }}" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
         <h1 class="m-0 text-primary">Hire<span style="color:rgb(29, 100, 253) ">Me</span></h1>
     </a>
+    <div>
+        <i class="fa-solid fa-globe"></i>
+        {{-- <span>{{ __('home.Language') }}:</span> --}}
+        <a href="{{ LaravelLocalization::getLocalizedURL('en') }}" class="language-link">En</a>
+        <span>|</span>
+        <a href="{{ LaravelLocalization::getLocalizedURL('ar') }}" class="language-link">العربية</a>
+    </div>
     <button class="navbar-toggler me-4" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -29,7 +36,7 @@
 
 
         </div>
-        <a href="{{ route('contact.create') }}" class="nav-item nav-link">Contact</a>
+        <a href="{{ route('contact.create') }}" class="nav-item nav-link">CONTACT</a>
     </div>
 
     <div class="d-flex align-items-center justify-content-end py-4 px-lg-5">

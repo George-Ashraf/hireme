@@ -16,8 +16,17 @@ require __DIR__ . '/auth.php';
 // Auth::routes(['verify' => true]);  // Not required with Breeze
 
 // Display the home page with all active job listings
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('about-us', [HomeController::class, 'about'])->name('about');
+
+Route::group(
+    [
+        'prefix' => LaravelLocalization::setLocale(),
+        'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
+    ], function(){ //...
+        Route::get('/', [HomeController::class, 'index'])->name('home');
+        Route::get('about-us', [HomeController::class, 'about'])->name('about');
+
+    });
+
 
 // Profile Management Routes
 Route::middleware('auth', 'verified')->group(function () {

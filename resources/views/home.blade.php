@@ -1,5 +1,20 @@
 <x-app-layout>
     <!-- Carousel Start -->
+
+   
+
+    {{-- <div class="language-switcher">
+        <i class="fa-solid fa-globe text-secondary"></i>
+        <span>{{ __('home.Language') }}:</span>
+        <select id="language-dropdown" onchange="location = this.value;">
+            <option value="{{ LaravelLocalization::getLocalizedURL('en') }}" {{ LaravelLocalization::getCurrentLocale() == 'en' ? 'selected' : '' }}>English</option>
+            <option value="{{ LaravelLocalization::getLocalizedURL('ar') }}" {{ LaravelLocalization::getCurrentLocale() == 'ar' ? 'selected' : '' }}>العربية</option>
+            <option value="{{ LaravelLocalization::getLocalizedURL('tr') }}">Türkçe</option>
+             <option value="{{ LaravelLocalization::getLocalizedURL('fr') }}">Français</option>
+        </select>
+    </div> --}}
+
+
     <div class="container-fluid p-0">
         <div class="owl-carousel header-carousel position-relative">
             <div class="owl-carousel-item position-relative">
@@ -55,7 +70,7 @@
     <!-- Category Start -->
     <div class="container-xxl py-5">
         <div class="container">
-            <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Explore By Category</h1>
+            <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">{{__('home.heading')}}</h1>
 
             @can('admin-only')
             @auth
