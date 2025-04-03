@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreMessageRequest;
 use App\Http\Requests\UpdateMessageRequest;
+use App\Mail\ContactMail;
+use Illuminate\Support\Facades\Mail;
 use App\Models\Message;
 
 class MessageController extends Controller
@@ -29,8 +31,20 @@ class MessageController extends Controller
      */
     public function store(StoreMessageRequest $request)
     {
-        Message::create($request->all());
+
+        // dd($request->all());
+                // dd($request->except('_token'));
+     $data =$request->except('_token');
+
+
+        Message::create($data);
+
+
+        //  $data =$request->except('_token');
+        Mail::to('admin@example.com')->send(new ContactMail($data));
+
         return to_route('home');
+
     }
 
     /**
